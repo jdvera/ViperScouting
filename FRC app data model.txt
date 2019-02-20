@@ -1,0 +1,130 @@
+FRC app data model
+
++++++++++++++++++++++
+++      Team       ++
++++++++++++++++++++++
+
+- Basic Info
+	- Team Number
+	- Team Name
+- Robot Stats
+	- Robot weight
+	- Sandstorm capabilities
+		- Prefered Starting position
+		- Vision
+		- Auto
+	- Scoring Capabilities
+		- Hatches
+			- Pick up
+			- Cargo Ship/Rocket Lvl 1
+			- Rocket Lvl 2
+			- Rocket Lvl 3
+		- Cargo
+			- Pick up
+				- Intake type
+				- Scoring type (Shooter, lift)
+			- Cargo Ship
+			- Rocket Lvl 1
+			- Rocket Lvl 2
+			- Rocket Lvl 3
+	- Climbing
+		- HAB Lvl 1
+		- HAB Lvl 2
+		- HAB Lvl 3
+
+- Raw Game Stats
+	- Starting Position
+		- HAB Lvl 1
+		- HAB Lvl 2
+	- Timeline of Scoring
+		- Array of (Event time, Event Types)
+			- Event Types
+				- PICKUP_H
+				- PICKUP_C
+				- DROP
+				- H_SHIP
+				- H_ROCKET_1
+				- H_ROCKET_2
+				- H_ROCKET_3
+				- C_SHIP
+				- C_ROCKET_1
+				- C_ROCKET_2
+				- C_ROCKET_3
+	- End game position
+		- HAB Lvl 1
+		- HAB Lvl 2
+		- HAB Lvl 3
+	- Broken?
+	- Fullfilled bot roles
+		- Cargo shipper
+		- Rocketeer
+		- Climber
+	- Notes
+
+- Aggregated Match Results
+	- Total Score
+	- Total Hatches
+		- Per location breakdown
+	- Total Cargo
+		- Per location breakdown
+	- Individual Event->Task conversions
+		- Array of (Task duration, task type)
+		- Score Rocket Lvl 1 in 14 secs
+			- Pick up hatch/cargo in 6 secs
+
+- Team Aggregated Results
+	- Average score per match
+	- Start
+		- Percentage start positions
+		- Percentage game element allocations
+	- Main
+		- Avg # Hatches scored, avg time per hatch score
+			- Per location breakdown
+		- Avg # Cargo scored, avg time per hatch score
+			- Per location breakdown
+	- Climb
+		- None, LVL 1, LVL 2, LVL 3
+			- Percentage in that state
+			- Percentage in that state or higher
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+		- State EMPTY_BOT
+			- Pick up Hatch GOTO HOLDING_HATCH
+			- Pick up Cargo GOTO HOLDING_CARGO
+
+		- State HOLDING_HATCH
+			- Drop Hatch 			GOTO EMPTY_BOT
+			- Score Cargo Ship		GOTO EMPTY_BOT
+			- Score Rocket Lvl 1	GOTO EMPTY_BOT
+			- Score Rocket Lvl 2	GOTO EMPTY_BOT
+			- Score Rocket Lvl 3	GOTO EMPTY_BOT
+
+		- State HOLDING_CARGO
+			- Drop Cargo 			GOTO EMPTY_BOT
+			- Score Cargo Ship		GOTO EMPTY_BOT
+			- Score Rocket Lvl 1	GOTO EMPTY_BOT
+			- Score Rocket Lvl 2	GOTO EMPTY_BOT
+			- Score Rocket Lvl 3	GOTO EMPTY_BOT
+
+		- SPECIAL
+			- Always an undo
+
+
+
+
+
+
+
+
