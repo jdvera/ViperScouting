@@ -1,14 +1,16 @@
 import React from 'react';
 import { StyleSheet, Text, View, Button, StatusBar, TouchableOpacity } from 'react-native';
-import AnimatedBar from "react-native-animated-bar";
+import AnimatedBar from "./AnimatedBar.js";
 // import moment from "moment";
 
 export default class App extends React.Component {
   state = {
     showStart: true,
+    postMatch: false,
     intervalId: null,
     startTime: null,
     time: 0,
+    prog: 0,
     carrying: null,
     events: []
   };
@@ -40,19 +42,19 @@ export default class App extends React.Component {
         let { startTime } = this.state;
         time = Date.now() - startTime;
         const stateObj = { time };
-        if (time > 119999) {
+        if (time > 19999) {
           clearInterval(intervalId);
           stateObj.intervalId = null;
-          stateObj.time = 120000;
+          stateObj.time = 20000;
         }
         this.setState(stateObj);
-      }, 250);
+      }, 200);
 
       this.setState({
         intervalId,
         showStart: false,
         startTime: Date.now()
-      });
+      }, () => this.setState({ prog: 1 }));
     }
   };
 
@@ -69,17 +71,13 @@ export default class App extends React.Component {
 
   displayTime = () => {
     let { time } = this.state;
-
     let minutes = Math.floor(time / 60000);
     time = time - (minutes * 60000);
-
     let seconds = Math.floor(time / 1000);
     if (seconds < 10) {
       seconds = "0" + seconds;
     }
-
     let mili = (time - (seconds * 1000) + "").padStart(3, "0");
-
     return minutes + ":" + seconds + "." + mili;
   };
 
@@ -92,6 +90,14 @@ export default class App extends React.Component {
           <TouchableOpacity style={styles.startButton} onPress={this.startTimer}>
             <Text>Start Game</Text>
           </TouchableOpacity>
+        </View>
+      )
+    }
+    else if (this.state.postMatch) {
+      return (
+        <View style={styles.container}>
+          <StatusBar hidden={true} />
+          <Text>Post Match Screen</Text>
         </View>
       )
     }
@@ -141,6 +147,9 @@ export default class App extends React.Component {
               <Text>Drop</Text>
             </TouchableOpacity>
           </View>
+          <View style={styles.divider}>
+            {/* intentionally left blank */}
+          </View>
           <View style={styles.buttonWrapper}>
             <TouchableOpacity {...actionStyle} onPress={() => this.handleButtonPress("r2")}>
               <Text>Rocket 2</Text>
@@ -148,6 +157,9 @@ export default class App extends React.Component {
             <TouchableOpacity {...actionStyle} onPress={() => this.handleButtonPress("cs")}>
               <Text>Cargo Ship</Text>
             </TouchableOpacity>
+          </View>
+          <View style={styles.divider}>
+            {/* intentionally left blank */}
           </View>
           <View style={styles.buttonWrapper}>
             <TouchableOpacity {...actionStyle} onPress={() => this.handleButtonPress("r3")}>
@@ -160,20 +172,20 @@ export default class App extends React.Component {
         </View>
 
         <AnimatedBar
-          progress={0}
+          progress={this.state.prog}
           height={null}
           borderColor="#DDD"
           barColor="tomato"
           borderRadius={5}
           borderWidth={5}
-          duration={100}
+          duration={20000}
         >
           <View style={[styles.row, styles.center]}>
-            {this.state.time !== 120000 ?
+            {this.state.time !== 20000 ?
               <Text style={[styles.barText, { fontSize: 30 }]}>
                 {this.displayTime()}
               </Text> :
-              <Button title="Submit" onPress={() => console.log("submitted")} />
+              <Button title="Submit" onPress={() => this.setState({ postMatch: true })} />
             }
           </View>
         </AnimatedBar>
@@ -201,11 +213,13 @@ const styles = StyleSheet.create({
   },
   divider: {
     backgroundColor: "gray",
-    width: 10
+    width: StyleSheet.hairlineWidth
   },
   actions: {
     flex: 3,
     flexDirection: "column"
+  },
+  test: {
   },
 
   // Buttons

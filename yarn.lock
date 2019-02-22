@@ -4409,11 +4409,6 @@ react-is@^16.8.1:
   resolved "https://registry.yarnpkg.com/react-is/-/react-is-16.8.2.tgz#09891d324cad1cb0c1f2d91f70a71a4bee34df0f"
   integrity sha512-D+NxhSR2HUCjYky1q1DwpNUD44cDpUXzSmmFyC3ug1bClcU/iDNy0YNn1iwme28fn+NFhpA13IndOd42CrFb+Q==
 
-react-native-animated-bar@^0.2.0:
-  version "0.2.0"
-  resolved "https://registry.yarnpkg.com/react-native-animated-bar/-/react-native-animated-bar-0.2.0.tgz#98ffaaa58d5ac73d73a88b061141ef4f74a7dda1"
-  integrity sha512-eSg2X3vWdRPaArw1/0HsSeCoTtQTEmVkA8xGhNy2NkgM1sGQGXh8sF9DA0wYiRqQVTYAAZC+z9FPKaF1EVWOLg==
-
 react-native-branch@2.2.5:
   version "2.2.5"
   resolved "https://registry.yarnpkg.com/react-native-branch/-/react-native-branch-2.2.5.tgz#4074dd63b4973e6397d9ce50e97b57c77a518e9d"
