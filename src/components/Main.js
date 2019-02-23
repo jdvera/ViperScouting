@@ -3,6 +3,7 @@ import { connect } from 'react-redux';
 import * as reduxActions from "../redux/actions.js";
 import { StyleSheet, Text, View, Button, StatusBar, TouchableOpacity } from 'react-native';
 import ActionButton from "./ActionButton.js";
+import QRGenerator from "./QRGenerator.js";
 import QRScanner from "./QRScanner.js";
 import AnimatedBar from "./AnimatedBar.js";
 // import moment from "moment";
@@ -243,6 +244,7 @@ class Main extends React.Component {
                     <TouchableOpacity style={styles.startButton} onPress={this.startTimer}>
                         <Text>Start Game</Text>
                     </TouchableOpacity>
+                    <QRScanner />
                 </View>
             )
         }
@@ -253,7 +255,7 @@ class Main extends React.Component {
                     <Text>Post Match Screen</Text>
                     <Button title="restart" onPress={this.restartGame} />
                     <Button title="submit game data" onPress={this.submitGameData} />
-                    <QRScanner gameData={JSON.stringify(this.state.events)} />
+                    <QRGenerator gameData={JSON.stringify(this.state.events)} />
                 </View>
             )
         }

@@ -1,48 +1,38 @@
-'use strict';
- 
-import React, { Component } from 'react'
-import QRCode from 'react-native-qrcode';
- 
-import {
-    AppRegistry,
-    StyleSheet,
-    View,
-    TextInput
-} from 'react-native';
- 
-class QRScanner extends Component {
- 
+import React from 'react';
+import { StyleSheet, Text, View } from 'react-native';
+import { BarCodeScanner, Permissions } from 'expo';
+
+export default class QRScanner extends React.Component {
+  state = {
+    hasCameraPermission: null,
+  }
+
+  async componentDidMount() {
+    const { status } = await Permissions.askAsync(Permissions.CAMERA);
+    this.setState({ hasCameraPermission: status === 'granted' });
+    }
+
   render() {
+    const { hasCameraPermission } = this.state;
+
+    if (hasCameraPermission === null) {
+      return <Text>Requesting for camera permission</Text>;
+    }
+    if (hasCameraPermission === false) {
+      return <Text>No access to camera</Text>;
+    }
     return (
-      <View style={styles.container}>
-        <QRCode
-          value={this.props.gameData}
-          size={200}
-          bgColor='black'
-          fgColor='white'/>
+      <View style={{ flex: 1 }}>
+        <BarCodeScanner
+          onBarCodeScanned={this.handleBarCodeScanned}
+          style={StyleSheet.absoluteFill}
+        />
       </View>
     );
-  };
+  }
+
+  handleBarCodeScanned = ({ type, data }) => {
+    alert(`Bar code with type ${type} and data ${data} has been scanned!`);
+
+  }
 }
- 
-const styles = StyleSheet.create({
-    container: {
-        flex: 1,
-        backgroundColor: 'white',
-        alignItems: 'center',
-        justifyContent: 'center'
-    },
- 
-    input: {
-        height: 40,
-        borderColor: 'gray',
-        borderWidth: 1,
-        margin: 10,
-        borderRadius: 5,
-        padding: 5,
-    }
-});
- 
-AppRegistry.registerComponent('QRScanner', () => QRScanner);
- 
-module.exports = QRScanner;
