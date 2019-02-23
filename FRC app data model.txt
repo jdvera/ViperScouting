@@ -33,9 +33,17 @@ FRC app data model
 		- HAB Lvl 3
 
 - Raw Game Stats
-	- Starting Position
-		- HAB Lvl 1
-		- HAB Lvl 2
+	- Pre-Match info
+		- Starting Position
+			- HAB Lvl 1
+			- HAB Lvl 2
+		- Starting game piece
+			- Hatch
+			- Cargo
+		- Starting field configuration
+			- 2 Cargo
+			- 1 Cargo/1 Hatch
+			- 2 Hatch
 	- Timeline of Scoring
 		- Array of (Event time, Event Types)
 			- Event Types
@@ -50,16 +58,32 @@ FRC app data model
 				- C_ROCKET_1
 				- C_ROCKET_2
 				- C_ROCKET_3
-	- End game position
-		- HAB Lvl 1
-		- HAB Lvl 2
-		- HAB Lvl 3
-	- Broken?
-	- Fullfilled bot roles
-		- Cargo shipper
-		- Rocketeer
-		- Climber
-	- Notes
+	- Post-Match info
+		- End game position
+			- HAB Lvl 1
+			- HAB Lvl 2
+			- HAB Lvl 3
+		- Hosting
+			- None
+			- Carried 1 robot
+			- Carried 2 robots
+		- Liftability (how well could we potentially carry them, how good are they at moving around/getting onto the hab)
+			- Bad
+			- Meh
+			- Gud
+		- Defense
+			- Bad (incurred penaltieds)
+			- None/Meh
+			- Great Defense
+		- Broken
+			- Healthy
+			- Damaged
+			- Dead-Dead
+			- Lost connection
+		- Fullfilled bot roles (multi-select)
+			- Cargo shipper
+			- Rocketeer
+			- Climber
 
 - Aggregated Match Results
 	- Total Score
