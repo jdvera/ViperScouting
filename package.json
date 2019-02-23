@@ -13,6 +13,9 @@
     "moment": "^2.24.0",
     "react": "16.5.0",
     "react-native": "https://github.com/expo/react-native/archive/sdk-32.0.0.tar.gz",
+    "react-native-camera": "https://github.com/react-native-community/react-native-camera/tarball/master",
+    "react-native-qrcode": "^0.2.7",
+    "react-native-qrcode-scanner": "^1.1.2",
     "react-redux": "^6.0.1",
     "redux": "^4.0.1"
   },
