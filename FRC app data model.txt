@@ -33,33 +33,61 @@ FRC app data model
 		- HAB Lvl 3
 
 - Raw Game Stats
-	- Starting Position
-		- HAB Lvl 1
-		- HAB Lvl 2
-	- Timeline of Scoring
-		- Array of (Event time, Event Types)
-			- Event Types
-				- PICKUP_H
-				- PICKUP_C
-				- DROP
-				- H_SHIP
-				- H_ROCKET_1
-				- H_ROCKET_2
-				- H_ROCKET_3
-				- C_SHIP
-				- C_ROCKET_1
-				- C_ROCKET_2
-				- C_ROCKET_3
-	- End game position
-		- HAB Lvl 1
-		- HAB Lvl 2
-		- HAB Lvl 3
-	- Broken?
-	- Fullfilled bot roles
-		- Cargo shipper
-		- Rocketeer
-		- Climber
-	- Notes
+    - Pre-Match info
+        - Starting Position
+            - 1 - HAB Lvl 1
+            - 2 - HAB Lvl 2
+        - Starting game piece
+            - 1 - Hatch
+            - 2 - Cargo
+        - Starting field configuration
+            - 0 - 2 Cargo
+            - 1 - 1 Cargo/1 Hatch
+            - 2 - 2 Hatch
+    - Timeline of Scoring
+        - Array of (Event time, Event Types)
+            - Event Types
+                -  0 - H_
+                -  1 - C_
+                -  2 - H_DP
+                -  3 - H_CS
+                -  4 - H_R1
+                -  5 - H_R2
+                -  6 - H_R3
+                -  7 - C_DP
+                -  8 - C_CS
+                -  9 - C_R1
+                - 10 - C_R2
+                - 11 - C_R3
+                - 12 - CLMB_S
+                - 13 - CLMB_F
+    - Post-Match info
+        - End game position
+            - 0 - N/A
+            - 1 - HAB Lvl 1
+            - 2 - HAB Lvl 2
+            - 3 - HAB Lvl 3
+        - Hosting
+            - 0 - Carried 0
+            - 1 - Carried 1 robot
+            - 2 - Carried 2 robots
+        - Liftability (how well could we potentially carry them, how good are they at moving around/getting onto the hab)
+            - 0 - Bad
+            - 1 - Meh
+            - 2 - Gud
+        - Defense
+            - 0 - Bad (incurred penaltieds)
+            - 1 - None/Meh
+            - 2 - Great Defense
+        - Broken
+            - 0 - Broken-Dead
+            - 1 - Lost connectionpreMatch
+            - 2 - Damaged
+            - 3 - Healthy
+        - Fullfilled bot roles (multi-select)
+            - 0 - Cargo shipper
+            - 1 - Rocketeer
+            - 2 - Climber
 
 - Aggregated Match Results
 	- Total Score
@@ -100,27 +128,15 @@ FRC app data model
 
 
 
-		- State EMPTY_BOT
-			- Pick up Hatch GOTO HOLDING_HATCH
-			- Pick up Cargo GOTO HOLDING_CARGO
-
-		- State HOLDING_HATCH
-			- Drop Hatch 			GOTO EMPTY_BOT
-			- Score Cargo Ship		GOTO EMPTY_BOT
-			- Score Rocket Lvl 1	GOTO EMPTY_BOT
-			- Score Rocket Lvl 2	GOTO EMPTY_BOT
-			- Score Rocket Lvl 3	GOTO EMPTY_BOT
-
-		- State HOLDING_CARGO
-			- Drop Cargo 			GOTO EMPTY_BOT
-			- Score Cargo Ship		GOTO EMPTY_BOT
-			- Score Rocket Lvl 1	GOTO EMPTY_BOT
-			- Score Rocket Lvl 2	GOTO EMPTY_BOT
-			- Score Rocket Lvl 3	GOTO EMPTY_BOT
-
-		- SPECIAL
-			- Always an undo
-
+- End game position
+    - HAB Lvl 1
+    - HAB Lvl 2
+    - HAB Lvl 3
+- Broken?
+- Fullfilled bot roles
+    - Cargo shipper
+    - Rocketeer
+    - Climber
 
 
 

@@ -1,22 +1,32 @@
 // -------------------------
-// ----- GAME ACTIONS ------
+// -- RAW RESULTS ACTIONS --
 // -------------------------
 
-export function loadGameData(gameObj) {
+export function saveRawMatchOffline(rawResult) {
     return {
-        type: 'LOAD_GAME_DATA',
-        payload: gameObj
+        type: 'SAVE_MATCH_OFFLINE',
+        payload: rawResult
     };
 };
 
 
 // -------------------------
-// ----- TEST ACTIONS ------
+// ----- TEAM ACTIONS ------
 // -------------------------
 
-export function loadText(text) {
+export function addResults(rawResult) {
     return {
-        type: 'NEW_TEXT',
-        payload: { text }
+        type: 'ADD_RESULT',
+        payload: rawResult
     };
 };
+
+export function saveMatch(rawResult) {
+    return (dispatch) => {
+        return Promise.resolve(
+            dispatch(saveRawMatchOffline(rawResult))
+        ).then(() => {
+                dispatch(addResults(rawResult))
+        });
+    }
+}
