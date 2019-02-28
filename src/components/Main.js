@@ -1,7 +1,8 @@
 import React from 'react';
 import { connect } from 'react-redux';
 import * as reduxActions from "../redux/actions.js";
-import { StyleSheet, Text, View, Button, StatusBar, TouchableOpacity } from 'react-native';
+import NavBar, { NavButton, NavButtonText, NavTitle } from 'react-native-nav';
+import { StyleSheet, Text, View, Button, StatusBar, TouchableOpacity, TextInput, Switch } from 'react-native';
 import ActionButton from "./ActionButton.js";
 import AnimatedBar from "./AnimatedBar.js";
 // import moment from "moment";
@@ -12,13 +13,18 @@ class Main extends React.Component {
         showHome: true,
         postMatch: false,
 
+        // school & robot info
+        schoolName: "",
+        robotBreak: false,
+        endLevel: 0,
+
         // start match & timer stuff
         intervalId: null,
         startTime: null,
         time: 0,
         prog: 0,
 
-        // robot state
+        // robot game state
         carrying: null,
         lastAction: null,
         undoing: false,
@@ -38,6 +44,13 @@ class Main extends React.Component {
             }
         }
     };
+
+    handleInputChange = (name, value) => {
+        this.setState({ [name]: value }, () => {
+            const { schoolName, endLevel, robotBreak } = this.state;
+            console.log({ schoolName, endLevel, robotBreak });
+        });
+    }
 
     handlePickup = action => {
         const { events, carrying, startTime, undoing } = this.state;
@@ -143,10 +156,10 @@ class Main extends React.Component {
                 let { startTime } = this.state;
                 time = Date.now() - startTime;
                 const stateObj = { time };
-                if (time > 59999) {
+                if (time > 19999) {
                     clearInterval(intervalId);
                     stateObj.intervalId = null;
-                    stateObj.time = 60000;
+                    stateObj.time = 20000;
                 }
                 this.setState(stateObj);
             }, 200);
@@ -172,8 +185,8 @@ class Main extends React.Component {
 
     displayTime = () => {
         let { time } = this.state;
-        let minutes = Math.floor(time / 60000);
-        time = time - (minutes * 60000);
+        let minutes = Math.floor(time / 20000);
+        time = time - (minutes * 20000);
         let seconds = Math.floor(time / 1000);
         if (seconds < 10) {
             seconds = "0" + seconds;
@@ -238,7 +251,28 @@ class Main extends React.Component {
             return (
                 <View style={styles.container}>
                     <StatusBar hidden={true} />
+                    <NavBar style={styles.navMain}>
+                        <NavButton onPress={() => alert('hi')}>
+                            <NavButtonText>
+                                {"Button"}
+                            </NavButtonText>
+                        </NavButton>
+                        <NavTitle>
+                            {"App"}
+                        </NavTitle>
+                        <NavButton onPress={() => alert('hi')}>
+                            <NavButtonText>
+                                {"Button"}
+                            </NavButtonText>
+                        </NavButton>
+                    </NavBar>
                     <Text>Start Match</Text>
+                    <View style={{ ...styles.row }}>
+                        <View style={{ flex: 1 }}>{/* intentionally left blank */}</View>
+                        <Text style={{ flex: 1 }}>School Name</Text>
+                        <TextInput value={this.state.schoolName} placeholder="Vandergrift" onChangeText={value => this.handleInputChange("schoolName", value)} autoCorrect={false} style={styles.inputStyle} />
+                        <View style={{ flex: 1 }}>{/* intentionally left blank */}</View>
+                    </View>
                     <TouchableOpacity style={styles.startButton} onPress={this.startTimer}>
                         <Text>Start Game</Text>
                     </TouchableOpacity>
@@ -250,6 +284,22 @@ class Main extends React.Component {
                 <View style={styles.container}>
                     <StatusBar hidden={true} />
                     <Text>Post Match Screen</Text>
+                    <View style={styles.row}>
+                        <View style={styles.postScreenColumn}>
+                            <View style={styles.postScreenRow}>
+                                <Text>Break?</Text>
+                                <Switch value={this.state.robotBreak} onValueChange={value => this.handleInputChange("robotBreak", value)} />
+                            </View>
+                        </View>
+                        <View style={styles.postScreenColumn}>
+                            <View style={styles.postScreenRow}>
+                                <Text>Ended on:</Text>
+                                <Button title="Level 1" onPress={() => this.handleInputChange("endLevel", 1)} />
+                                <Button title="Level 2" onPress={() => this.handleInputChange("endLevel", 2)} />
+                                <Button title="Level 3" onPress={() => this.handleInputChange("endLevel", 3)} />
+                            </View>
+                        </View>
+                    </View>
                     <Button title="restart" onPress={this.restartGame} />
                     <Button title="submit game data" onPress={this.submitGameData} />
                 </View>
@@ -282,10 +332,6 @@ class Main extends React.Component {
                         </ActionButton>
                     </View>
 
-                    <View style={styles.divider}>
-                        {/* intentionally left blank */}
-                    </View>
-
                     <View style={styles.buttonWrapper}>
                         <ActionButton action="r2" type="task" lastAction={this.state.lastAction} carrying={this.state.carrying} handleButtonPress={this.handleButtonPress}>
                             <Text>Rocket 2</Text>
@@ -293,10 +339,6 @@ class Main extends React.Component {
                         <ActionButton action="cs" type="task" lastAction={this.state.lastAction} carrying={this.state.carrying} handleButtonPress={this.handleButtonPress}>
                             <Text>Cargo Ship</Text>
                         </ActionButton>
-                    </View>
-
-                    <View style={styles.divider}>
-                        {/* intentionally left blank */}
                     </View>
 
                     <View style={styles.buttonWrapper}>
@@ -314,10 +356,10 @@ class Main extends React.Component {
                     barColor="tomato"
                     borderRadius={5}
                     borderWidth={5}
-                    duration={60000}
+                    duration={20000}
                 >
                     <View style={[styles.row, styles.center]}>
-                        {this.state.time !== 60000 ?
+                        {this.state.time !== 20000 ?
                             <Text style={[styles.barText, { fontSize: 30 }]}>
                                 {this.displayTime()}
                             </Text> :
@@ -361,6 +403,14 @@ const styles = StyleSheet.create({
         justifyContent: "center",
         margin: 20
     },
+    postScreenColumn: {
+        flex: 1,
+        flexDirection: "column"
+    },
+    postScreenRow: {
+        flexDirection: "row",
+        justifyContent: "space-around"
+    },
 
     // Buttons
     startButton: {
@@ -377,9 +427,24 @@ const styles = StyleSheet.create({
         margin: 20
     },
 
+    // Nav
+    navMain: {
+        width: 300
+    },
 
+    // Input Field
+    inputStyle: {
+        flex: 2,
+        borderColor: "grey",
+        borderWidth: StyleSheet.hairlineWidth
+    },
+
+    // Progress Bar
     row: {
         flexDirection: "row",
+    },
+    column: {
+        flexDirection: "column"
     },
     center: {
         justifyContent: "center",
