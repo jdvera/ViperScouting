@@ -1,57 +1,48 @@
 import { combineReducers } from 'redux';
+import _get from 'lodash/get';
+import {validateRawResults} from "../utils/validators";
+import {generateProcessedTasks, matchId} from "../utils/matchUtils";
 
-/****
-Array [
-  Object {
-    "time": 1812,
-    "type": "c",
-  },
-  Object {
-    "time": 2467,
-    "type": "dp_c",
-  },
-  Object {
-    "time": 3126,
-    "type": "c",
-  },
-  Object {
-    "time": 3776,
-    "type": "dp_c",
-  },
-]
-****/
-
-const gameState = (state = { gameDataArr: [] }, action) => {
-    let newState = Object.assign({}, state);
-    const gameData = action.payload || {};
+const rawResultsReducer = (state = {}, action) => {
 
     switch (action.type) {
-        case 'LOAD_GAME_DATA':
-            newState.gameDataArr.push(gameData);
-            return newState;
-
+        case 'SAVE_MATCH_OFFLINE':
+            const rawResult = _get(action, "payload", {});
+            if (!validateRawResults(rawResult)) {
+                console.warn("Improperly formatted payload for saveGameOffline()");
+                return state
+            }
+            return Object.assign(state,{
+                    [matchId(rawResult)]:
+                        Object.assign(rawResult, {
+                            'submitted': false,
+                            'taskMap': generateProcessedTasks(rawResult)
+                        })
+                }
+                );
         default:
             return state;
     }
 };
 
 
-const test = (state = { text: "" }, action) => {
-    let newState = Object.assign({}, state);
-    const { text } = action.payload || {};
+const teamReducer = (state = { }, action) => {
 
     switch (action.type) {
-        case 'NEW_TEXT':
-            newState.text = text;
-            return newState;
-
+        case 'ADD_RESULT':
+            const teamNum = action.payload.teamNum;
+            return Object.assign(state, {
+                [teamNum]:[..._get(state, `${teamNum}.matches`, []), matchId(action.payload)]
+            });
         default:
             return state;
     }
 };
 
 
-export default combineReducers({
-    gameState,
-    test
+const reducer = combineReducers({
+    rawResults: rawResultsReducer,
+    team: teamReducer
 });
+
+export default reducer;
