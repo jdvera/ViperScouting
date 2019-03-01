@@ -56,5 +56,6 @@ const testMatch = {
 // store.dispatch(reduxActions.saveRawMatchOffline(testMatch));
 store.dispatch(reduxActions.saveMatch(testMatch)).then(() => {
     console.log(store.getState());
-    console.log(store.getState().rawResults['5::6800']);
+    console.log(store.getState().results['5::6800']);
+    console.log(store.getState().teams['_6800']);
 });

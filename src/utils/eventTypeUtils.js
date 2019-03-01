@@ -7,3 +7,5 @@ export function of(eventTypeAbbr) {
         }
     });
 }
+
+export const eventTypeAbbrList = Object.values(eventTypes).map((eventType) => eventType.abbr);
