@@ -1,8 +1,9 @@
 {
-    'rawResults': {
+    'results': {
         '${matchNum}::${teamNum}' : {
             'matchNum': 5,
-            'teamNum': 6800
+            'teamNum': 6800,
+            'submitted': false,
             'preMatch': {
                 'pos': 'lvl1',
                 'piece': 'hatch',
@@ -38,13 +39,48 @@
                 'defense': 'meh',
                 'broken': 'healthy',
                 'roles': ['rocketeer']
+            },
+            'taskMap': {
+                'H_': [ 4000, 7000, 7000, 4000, 9000, 11000 ],
+                'C_': [ 9000, 6000, 7000 ],
+                'H_DP': [ 8653 ],
+                'H_CS': [],
+                'H_R1': [ 6000, 10000 ],
+                'H_R2': [ 14000, 9000 ],
+                'H_R3': [ 7000, 10000 ],
+                'C_DP': [],
+                'C_CS': [],
+                'C_R1': [ 6000, 6000 ],
+                'C_R2': [],
+                'C_R3': [],
+                'CLMB_S': [ 2000 ],
+                'CLMB_F': [ 5000 ]
             }
         }
     },
-    'team': {
+    'teams': {
         '${teamNum}': {
             'weight': 120,
-            'matches': ['${matchNum}::${teamNum}']
+            'matches': ['${matchNum}::${teamNum}'],
+            'taskAveragesMap': {
+                'H_': {
+                    'time': num,
+                    'count' num,
+                },
+                'C_': [ 9000, 6000, 7000 ],
+                'H_DP': [ 8653 ],
+                'H_CS': [],
+                'H_R1': [ 6000, 10000 ],
+                'H_R2': [ 14000, 9000 ],
+                'H_R3': [ 7000, 10000 ],
+                'C_DP': [],
+                'C_CS': [],
+                'C_R1': [ 6000, 6000 ],
+                'C_R2': [],
+                'C_R3': [],
+                'CLMB_S': [ 2000 ],
+                'CLMB_F': [ 5000 ]
+            }
         }
     }
 }
