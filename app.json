@@ -24,6 +24,10 @@
     ],
     "ios": {
       "supportsTablet": true
+    },
+    "android": {
+      "package": "not.sure.what.im.doing",
+      "permissions": []
     }
   }
 }

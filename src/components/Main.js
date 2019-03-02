@@ -429,7 +429,7 @@ const styles = StyleSheet.create({
 
     // Nav
     navMain: {
-        width: 300
+        flex: 1
     },
 
     // Input Field
