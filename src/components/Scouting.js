@@ -7,17 +7,8 @@ import ActionButton from "./ActionButton.js";
 import AnimatedBar from "./AnimatedBar.js";
 // import moment from "moment";
 
-class Main extends React.Component {
+class Scouting extends React.Component {
     state = {
-        // determine what "page" to display
-        showHome: true,
-        postMatch: false,
-
-        // school & robot info
-        schoolName: "",
-        robotBreak: false,
-        endLevel: 0,
-
         // start match & timer stuff
         intervalId: null,
         startTime: null,
@@ -33,6 +24,10 @@ class Main extends React.Component {
         events: [],
         savedToRedux: false
     };
+
+    componentDidMount() {
+        this.startTimer();
+    }
 
     handleButtonPress = (type, action) => {
         if (this.state.intervalId) {
@@ -195,6 +190,10 @@ class Main extends React.Component {
         return minutes + ":" + seconds + "." + mili;
     };
 
+    handleChangePage = () => {
+        this.props.handleChangePage("postmatch");
+    };
+
     displayGameState = () => {
         let { carrying, events, undoing } = this.state;
 
@@ -247,68 +246,9 @@ class Main extends React.Component {
     }
 
     render() {
-        if (this.state.showHome) {
-            return (
-                <View style={styles.container}>
-                    <StatusBar hidden={true} />
-                    <NavBar style={styles.navMain}>
-                        <NavButton onPress={() => alert('hi')}>
-                            <NavButtonText>
-                                {"Button"}
-                            </NavButtonText>
-                        </NavButton>
-                        <NavTitle>
-                            {"App"}
-                        </NavTitle>
-                        <NavButton onPress={() => alert('hi')}>
-                            <NavButtonText>
-                                {"Button"}
-                            </NavButtonText>
-                        </NavButton>
-                    </NavBar>
-                    <Text>Start Match</Text>
-                    <View style={{ ...styles.row }}>
-                        <View style={{ flex: 1 }}>{/* intentionally left blank */}</View>
-                        <Text style={{ flex: 1 }}>School Name</Text>
-                        <TextInput value={this.state.schoolName} placeholder="Vandergrift" onChangeText={value => this.handleInputChange("schoolName", value)} autoCorrect={false} style={styles.inputStyle} />
-                        <View style={{ flex: 1 }}>{/* intentionally left blank */}</View>
-                    </View>
-                    <TouchableOpacity style={styles.startButton} onPress={this.startTimer}>
-                        <Text>Start Game</Text>
-                    </TouchableOpacity>
-                </View>
-            )
-        }
-        else if (this.state.postMatch) {
-            return (
-                <View style={styles.container}>
-                    <StatusBar hidden={true} />
-                    <Text>Post Match Screen</Text>
-                    <View style={styles.row}>
-                        <View style={styles.postScreenColumn}>
-                            <View style={styles.postScreenRow}>
-                                <Text>Break?</Text>
-                                <Switch value={this.state.robotBreak} onValueChange={value => this.handleInputChange("robotBreak", value)} />
-                            </View>
-                        </View>
-                        <View style={styles.postScreenColumn}>
-                            <View style={styles.postScreenRow}>
-                                <Text>Ended on:</Text>
-                                <Button title="Level 1" onPress={() => this.handleInputChange("endLevel", 1)} />
-                                <Button title="Level 2" onPress={() => this.handleInputChange("endLevel", 2)} />
-                                <Button title="Level 3" onPress={() => this.handleInputChange("endLevel", 3)} />
-                            </View>
-                        </View>
-                    </View>
-                    <Button title="restart" onPress={this.restartGame} />
-                    <Button title="submit game data" onPress={this.submitGameData} />
-                </View>
-            )
-        }
 
         return (
             <View style={styles.container}>
-                <StatusBar hidden={true} />
                 <View style={styles.actionsContainer}>
                     <View style={styles.buttonWrapper}>
                         <ActionButton action="h_" type="pickup" lastAction={this.state.lastAction} carrying={this.state.carrying} handleButtonPress={this.handleButtonPress}>
@@ -363,7 +303,7 @@ class Main extends React.Component {
                             <Text style={[styles.barText, { fontSize: 30 }]}>
                                 {this.displayTime()}
                             </Text> :
-                            <Button title="Submit" onPress={() => this.setState({ postMatch: true })} />
+                            <Button title="Submit" onPress={this.handleChangePage} />
                         }
                     </View>
                 </AnimatedBar>
@@ -427,11 +367,6 @@ const styles = StyleSheet.create({
         margin: 20
     },
 
-    // Nav
-    navMain: {
-        flex: 1
-    },
-
     // Input Field
     inputStyle: {
         flex: 2,
@@ -460,4 +395,4 @@ const mapStoreToProps = store => {
     return { ...store };
 };
 
-export default connect(mapStoreToProps)(Main);
+export default connect(mapStoreToProps)(Scouting);
