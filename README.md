@@ -1,5 +1,7 @@
 # Viper Scouting
 
+https://exp.host/@jdvera/viper
+
 ## Installing Expo
 This app was created based on React Native's [recommendation](https://facebook.github.io/react-native/docs/getting-started.html) of using [Expo](https://docs.expo.io/versions/latest/).
 1. To view the development version of the app, first install the expo-cli - `npm install -g expo-cli`

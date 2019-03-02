@@ -157,10 +157,10 @@ class Scouting extends React.Component {
                 let { startTime } = this.state;
                 time = Date.now() - startTime;
                 const stateObj = { time };
-                if (time > 19999) {
+                if (time > 149999) {
                     clearInterval(intervalId);
                     stateObj.intervalId = null;
-                    stateObj.time = 20000;
+                    stateObj.time = 150000;
                 }
                 this.setState(stateObj);
             }, 200);
@@ -186,8 +186,8 @@ class Scouting extends React.Component {
 
     displayTime = () => {
         let { time } = this.state;
-        let minutes = Math.floor(time / 20000);
-        time = time - (minutes * 20000);
+        let minutes = Math.floor(time / 150000);
+        time = time - (minutes * 150000);
         let seconds = Math.floor(time / 1000);
         if (seconds < 10) {
             seconds = "0" + seconds;
@@ -304,10 +304,10 @@ class Scouting extends React.Component {
                     barColor="tomato"
                     borderRadius={5}
                     borderWidth={5}
-                    duration={20000}
+                    duration={150000}
                 >
                     <View style={[styles.row, styles.center]}>
-                        {this.state.time !== 20000 ?
+                        {this.state.time !== 150000 ?
                             <Text style={[styles.barText, { fontSize: 30 }]}>
                                 {this.displayTime()}
                             </Text> :

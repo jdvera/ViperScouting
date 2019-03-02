@@ -8,7 +8,7 @@
       "ios",
       "android"
     ],
-    "version": "1.0.2",
+    "version": "1.0.3",
     "orientation": "landscape",
     "icon": "./assets/icon.png",
     "splash": {
@@ -28,7 +28,7 @@
     "android": {
       "package": "not.sure.what.im.doing",
       "permissions": [],
-      "versionCode": 3
+      "versionCode": 4
     }
   }
 }
