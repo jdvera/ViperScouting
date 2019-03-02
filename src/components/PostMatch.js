@@ -20,7 +20,6 @@ class PostGame extends React.Component {
             rocketeer: false,
             climber: false
         }
-
     };
 
     handleInputChange = (name, value) => {
@@ -34,10 +33,8 @@ class PostGame extends React.Component {
     };
 
     submitGameData = () => {
-        const { events } = this.state;
-        this.props.dispatch(reduxActions.loadGameData({
-            schoolName: { events }
-        }));
+
+        this.props.updateMainState({ ...this.state }, "prematch");
     };
 
     restartGame = () => {
@@ -169,7 +166,7 @@ class PostGame extends React.Component {
                         </View>
                     </View>
                 </View>
-                <Button title="restart" onPress={this.restartGame} />
+
                 <Button title="submit game data" onPress={this.submitGameData} />
             </View>
         );

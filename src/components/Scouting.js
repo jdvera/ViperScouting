@@ -29,6 +29,12 @@ class Scouting extends React.Component {
         this.startTimer();
     }
 
+    componentWillUnmount() {
+        if (this.state.intervalId) {
+            clearInterval(this.state.intervalId);
+        }
+    }
+
     handleButtonPress = (type, action) => {
         if (this.state.intervalId) {
             if (type === "pickup" && action !== this.state.carrying) {
@@ -45,7 +51,7 @@ class Scouting extends React.Component {
             const { schoolName, endLevel, robotBreak } = this.state;
             console.log({ schoolName, endLevel, robotBreak });
         });
-    }
+    };
 
     handlePickup = action => {
         const { events, carrying, startTime, undoing } = this.state;
@@ -191,7 +197,9 @@ class Scouting extends React.Component {
     };
 
     handleChangePage = () => {
-        this.props.handleChangePage("postmatch");
+        const { events } = this.state;
+        const stateObj = { events };
+        this.props.updateMainState(stateObj, "postmatch");
     };
 
     displayGameState = () => {

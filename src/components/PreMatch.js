@@ -9,7 +9,8 @@ import AnimatedBar from "./AnimatedBar.js";
 
 class PreGame extends React.Component {
     state = {
-        schoolName: ""
+        matchNum: "",
+        teamNum: ""
     };
 
     handleInputChange = (name, value) => {
@@ -17,21 +18,24 @@ class PreGame extends React.Component {
     };
 
     startGame = () => {
-        this.props.handleChangePage("scouting");
-        // const { events } = this.state;
-        // this.props.dispatch(reduxActions.loadGameData({
-        //     schoolName: { events }
-        // }));
+        const { matchNum, teamNum } = this.state;
+        const stateObj = { matchNum, teamNum };
+        this.props.updateMainState(stateObj, "scouting");
     };
 
     render() {
         return (
             <View style={styles.container}>
-                <Text>Start Match</Text>
                 <View style={{ ...styles.row }}>
                     <View style={{ flex: 1 }}>{/* intentionally left blank */}</View>
-                    <Text style={{ flex: 1 }}>School Name</Text>
-                    <TextInput value={this.state.schoolName} placeholder="Vandergrift" onChangeText={value => this.handleInputChange("schoolName", value)} autoCorrect={false} style={styles.inputStyle} />
+                    <Text style={{ flex: 1 }}>Match Number</Text>
+                    <TextInput value={this.state.schoolName} onChangeText={value => this.handleInputChange("matchNum", value)} autoCorrect={false} style={styles.inputStyle} />
+                    <View style={{ flex: 1 }}>{/* intentionally left blank */}</View>
+                </View>
+                <View style={{ ...styles.row }}>
+                    <View style={{ flex: 1 }}>{/* intentionally left blank */}</View>
+                    <Text style={{ flex: 1 }}>Team Number</Text>
+                    <TextInput value={this.state.schoolName} onChangeText={value => this.handleInputChange("teamNum", value)} autoCorrect={false} style={styles.inputStyle} />
                     <View style={{ flex: 1 }}>{/* intentionally left blank */}</View>
                 </View>
                 <TouchableOpacity style={styles.startButton} onPress={this.startGame}>
