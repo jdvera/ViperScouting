@@ -3,7 +3,7 @@
         '${matchNum}::${teamNum}' : {
             'matchNum': 5,
             'teamNum': 6800,
-            'submitted': false,
+            'original': false,
             'preMatch': {
                 'pos': 'lvl1',
                 'piece': 'hatch',

@@ -16,22 +16,22 @@ export const dropHatch = {
 export const scoreHatchCargoShip = {
     id: 3,
     abbr: 'H_CS',
-    points: 0
+    points: 2
 }
 export const scoreHatchRocket1 = {
     id: 4,
     abbr: 'H_R1',
-    points: 0
+    points: 2
 }
 export const scoreHatchRocket2 = {
     id: 5,
     abbr: 'H_R2',
-    points: 0
+    points: 2
 }
 export const scoreHatchRocket3 = {
     id: 6,
     abbr: 'H_R3',
-    points: 0
+    points: 2
 }
 export const dropCargo = {
     id: 7,
@@ -41,22 +41,22 @@ export const dropCargo = {
 export const scoreCargoCargoShip = {
     id: 8,
     abbr: 'C_CS',
-    points: 0
+    points: 3
 }
 export const scoreCargoRocket1 = {
     id: 9,
     abbr: 'C_R1',
-    points: 0
+    points: 3
 }
 export const scoreCargoRocket2 = {
     id: 10,
     abbr: 'C_R2',
-    points: 0
+    points: 3
 }
 export const scoreCargoRocket3 = {
     id: 11,
     abbr: 'C_R3',
-    points: 0
+    points: 3
 }
 export const startClimb = {
     id: 12,

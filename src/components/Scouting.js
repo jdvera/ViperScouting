@@ -6,6 +6,8 @@ import ActionButton from "./ActionButton.js";
 import AnimatedBar from "./AnimatedBar.js";
 // import moment from "moment";
 
+const gameDuration = 15000;
+
 class Scouting extends React.Component {
     state = {
         // start match & timer stuff
@@ -54,7 +56,7 @@ class Scouting extends React.Component {
         };
 
         if (carrying) {
-            index = undoing ? 2 : 1;
+            let index = undoing ? 2 : 1;
             stateObj.events[events.length - index].type = action;
         }
         else {
@@ -110,10 +112,10 @@ class Scouting extends React.Component {
                 let { startTime } = this.state;
                 time = Date.now() - startTime;
                 const stateObj = { time };
-                if (time > 149999) {
+                if (time > gameDuration) {
                     clearInterval(intervalId);
                     stateObj.intervalId = null;
-                    stateObj.time = 150000;
+                    stateObj.time = gameDuration;
                 }
                 this.setState(stateObj);
             }, 200);
@@ -139,8 +141,11 @@ class Scouting extends React.Component {
     };
 
     handleChangePage = () => {
-        const { events } = this.state;
-        const stateObj = { events, showPage: "postmatch" };
+        const timeline = this.state.events.map(
+            (event) => {return { eventType: event.type.toUpperCase(), time: event.time };}
+        );
+
+        const stateObj = { timeline, showPage: "postmatch" };
         this.props.updateMainState(stateObj);
     };
 
@@ -243,10 +248,10 @@ class Scouting extends React.Component {
                     barColor="tomato"
                     borderRadius={5}
                     borderWidth={5}
-                    duration={150000}
+                    duration={gameDuration}
                 >
                     <View style={[styles.row, styles.center]}>
-                        {this.state.time !== 150000 ?
+                        {this.state.time !== gameDuration ?
                             <Text style={[styles.barText, { fontSize: 30 }]}>
                                 {this.displayTime()}
                             </Text> :

@@ -6,17 +6,11 @@ import { StyleSheet, Text, View, Button, StatusBar, TouchableOpacity, TextInput,
 class PostGame extends React.Component {
     state = {
         // robot info
-        robotBreak: null,
-        endLevel: null,
+        broken: null,
+        pos: null,
         host: null,
-        liftablitity: null,
-        defense: null,
-        role: {
-            cargoShipper: false,
-            rocketeer: false,
-            climber: false,
-            defender: false
-        }
+        liftability: null,
+        defense: null
     };
 
     handleInputChange = (name, value) => {
@@ -32,7 +26,9 @@ class PostGame extends React.Component {
     submitGameData = () => {
         let { i } = this.props;
         i++;
-        this.props.updateMainState({ ...this.state, i, showPage: "prematch" });
+        Promise.resolve(
+            this.props.updateMainState({ postMatch: this.state, i, showPage: "prematch" })
+        ).then(() => this.props.saveMatch());
     };
 
     render() {
@@ -48,16 +44,30 @@ class PostGame extends React.Component {
                             </View>
                             <View style={{ ...styles.postScreenRow, justifyContent: "space-between" }} >
                                 <View style={{ paddingRight: 10 }}>
-                                    <Button title="No HAB" onPress={() => this.handleInputChange("endLevel", 0)} color={this.state.endLevel === 0 ? "deepskyblue" : "gray"} />
+                                    <Button title="No HAB"
+                                            onPress={() => this.handleInputChange("pos", 0)}
+                                            color={this.state.pos === 0 ? "deepskyblue" : "gray"}
+                                    />
                                 </View>
                                 <View style={{ paddingRight: 10 }}>
-                                    <Button title="HAB Level 1" onPress={() => this.handleInputChange("endLevel", 1)} color={this.state.endLevel === 1 ? "deepskyblue" : "gray"} />
+                                    <Button title="HAB Level 1"
+                                            onPress={() => this.handleInputChange("pos", 1)}
+                                            color={this.state.pos === 1 ? "deepskyblue" : "gray"}
+                                    />
                                 </View>
                                 <View style={{ paddingRight: 10 }}>
-                                    <Button title="HAB Level 2" onPress={() => this.handleInputChange("endLevel", 2)} color={this.state.endLevel === 2 ? "deepskyblue" : "gray"} />
+                                    <Button
+                                        title="HAB Level 2"
+                                        onPress={() => this.handleInputChange("pos", 2)}
+                                        color={this.state.pos === 2 ? "deepskyblue" : "gray"}
+                                    />
                                 </View>
                                 <View style={{ paddingRight: 10 }}>
-                                    <Button title="HAB Level 3" onPress={() => this.handleInputChange("endLevel", 3)} color={this.state.endLevel === 3 ? "deepskyblue" : "gray"} />
+                                    <Button
+                                        title="HAB Level 3"
+                                        onPress={() => this.handleInputChange("pos", 3)}
+                                        color={this.state.pos === 3 ? "deepskyblue" : "gray"}
+                                    />
                                 </View>
                             </View>
                         </View>
@@ -70,13 +80,25 @@ class PostGame extends React.Component {
                             </View>
                             <View style={{ ...styles.postScreenRow, justifyContent: "space-between" }} >
                                 <View style={{ paddingRight: 10 }}>
-                                    <Button title="x0" onPress={() => this.handleInputChange("host", 0)} color={this.state.host === 0 ? "deepskyblue" : "gray"} />
+                                    <Button
+                                        title="x0"
+                                        onPress={() => this.handleInputChange("host", 0)}
+                                        color={this.state.host === 0 ? "deepskyblue" : "gray"}
+                                    />
                                 </View>
                                 <View style={{ paddingRight: 10 }}>
-                                    <Button title="x1" onPress={() => this.handleInputChange("host", 1)} color={this.state.host === 1 ? "deepskyblue" : "gray"} />
+                                    <Button
+                                        title="x1"
+                                        onPress={() => this.handleInputChange("host", 1)}
+                                        color={this.state.host === 1 ? "deepskyblue" : "gray"}
+                                    />
                                 </View>
                                 <View style={{ paddingRight: 10 }}>
-                                    <Button title="x2" onPress={() => this.handleInputChange("host", 2)} color={this.state.host === 2 ? "deepskyblue" : "gray"} />
+                                    <Button
+                                        title="x2"
+                                        onPress={() => this.handleInputChange("host", 2)}
+                                        color={this.state.host === 2 ? "deepskyblue" : "gray"}
+                                    />
                                 </View>
                             </View>
                         </View>
@@ -89,13 +111,25 @@ class PostGame extends React.Component {
                             </View>
                             <View style={{ ...styles.postScreenRow, justifyContent: "space-between" }} >
                                 <View style={{ paddingRight: 10 }}>
-                                    <Button title="Bad" onPress={() => this.handleInputChange("liftability", 0)} color={this.state.liftability === 0 ? "deepskyblue" : "gray"} />
+                                    <Button
+                                        title="Bad"
+                                        onPress={() => this.handleInputChange("liftability", 0)}
+                                        color={this.state.liftability === 0 ? "deepskyblue" : "gray"}
+                                    />
                                 </View>
                                 <View style={{ paddingRight: 10 }}>
-                                    <Button title="Meh" onPress={() => this.handleInputChange("liftability", 1)} color={this.state.liftability === 1 ? "deepskyblue" : "gray"} />
+                                    <Button
+                                        title="Meh"
+                                        onPress={() => this.handleInputChange("liftability", 1)}
+                                        color={this.state.liftability === 1 ? "deepskyblue" : "gray"}
+                                    />
                                 </View>
                                 <View style={{ paddingRight: 10 }}>
-                                    <Button title="Good" onPress={() => this.handleInputChange("liftability", 2)} color={this.state.liftability === 2 ? "deepskyblue" : "gray"} />
+                                    <Button
+                                        title="Good"
+                                        onPress={() => this.handleInputChange("liftability", 2)}
+                                        color={this.state.liftability === 2 ? "deepskyblue" : "gray"}
+                                    />
                                 </View>
                             </View>
                         </View>
@@ -108,13 +142,24 @@ class PostGame extends React.Component {
                             </View>
                             <View style={{ ...styles.postScreenRow, justifyContent: "space-between" }} >
                                 <View style={{ paddingRight: 10 }}>
-                                    <Button title="None" onPress={() => this.handleInputChange("defense", 0)} color={this.state.defense === 0 ? "deepskyblue" : "gray"} />
+                                    <Button title="None"
+                                            onPress={() => this.handleInputChange("defense", 0)}
+                                            color={this.state.defense === 0 ? "deepskyblue" : "gray"}
+                                    />
                                 </View>
                                 <View style={{ paddingRight: 10 }}>
-                                    <Button title="Bad" onPress={() => this.handleInputChange("defense", 1)} color={this.state.defense === 1 ? "deepskyblue" : "gray"} />
+                                    <Button
+                                        title="Bad"
+                                        onPress={() => this.handleInputChange("defense", 1)}
+                                        color={this.state.defense === 1 ? "deepskyblue" : "gray"}
+                                    />
                                 </View>
                                 <View style={{ paddingRight: 10 }}>
-                                    <Button title="Good" onPress={() => this.handleInputChange("defense", 2)} color={this.state.defense === 2 ? "deepskyblue" : "gray"} />
+                                    <Button
+                                        title="Good"
+                                        onPress={() => this.handleInputChange("defense", 2)}
+                                        color={this.state.defense === 2 ? "deepskyblue" : "gray"}
+                                    />
                                 </View>
                             </View>
                         </View>
@@ -127,38 +172,32 @@ class PostGame extends React.Component {
                             </View>
                             <View style={{ ...styles.postScreenRow, justifyContent: "space-between" }} >
                                 <View style={{ paddingRight: 10 }}>
-                                    <Button title="Lost Connection" onPress={() => this.handleInputChange("robotBreak", 0)} color={this.state.robotBreak === 0 ? "deepskyblue" : "gray"} />
+                                    <Button
+                                        title="Lost Connection"
+                                        onPress={() => this.handleInputChange("broken", 0)}
+                                        color={this.state.broken === 0 ? "deepskyblue" : "gray"}
+                                    />
                                 </View>
                                 <View style={{ paddingRight: 10 }}>
-                                    <Button title="Really Broken" onPress={() => this.handleInputChange("robotBreak", 1)} color={this.state.robotBreak === 1 ? "deepskyblue" : "gray"} />
+                                    <Button
+                                        title="Really Broken"
+                                        onPress={() => this.handleInputChange("broken", 1)}
+                                        color={this.state.broken === 1 ? "deepskyblue" : "gray"}
+                                    />
                                 </View>
                                 <View style={{ paddingRight: 10 }}>
-                                    <Button title="Kinda Broken" onPress={() => this.handleInputChange("robotBreak", 2)} color={this.state.robotBreak === 2 ? "deepskyblue" : "gray"} />
+                                    <Button
+                                        title="Kinda Broken"
+                                        onPress={() => this.handleInputChange("broken", 2)}
+                                        color={this.state.broken === 2 ? "deepskyblue" : "gray"}
+                                    />
                                 </View>
                                 <View style={{ paddingRight: 10 }}>
-                                    <Button title="Healthy" onPress={() => this.handleInputChange("robotBreak", 3)} color={this.state.robotBreak === 3 ? "deepskyblue" : "gray"} />
-                                </View>
-                            </View>
-                        </View>
-                    </View>
-
-                    <View style={styles.postScreenQuestionRow}>
-                        <View style={styles.postScreenColumn}>
-                            <View style={styles.postScreenRow}>
-                                <Text>Fulfilled Bot Role: (Select all that apply)</Text>
-                            </View>
-                            <View style={{ ...styles.postScreenRow, justifyContent: "space-between" }} >
-                                <View style={{ paddingRight: 10 }}>
-                                    <Button title="Cargo Shipper" onPress={() => this.handleRoleChange("cargoShipper")} color={this.state.role.cargoShipper ? "deepskyblue" : "gray"} />
-                                </View>
-                                <View style={{ paddingRight: 10 }}>
-                                    <Button title="Rocketeer" onPress={() => this.handleRoleChange("rocketeer")} color={this.state.role.rocketeer ? "deepskyblue" : "gray"} />
-                                </View>
-                                <View style={{ paddingRight: 10 }}>
-                                    <Button title="Climber" onPress={() => this.handleRoleChange("climber")} color={this.state.role.climber ? "deepskyblue" : "gray"} />
-                                </View>
-                                <View style={{ paddingRight: 10 }}>
-                                    <Button title="Defender" onPress={() => this.handleRoleChange("defender")} color={this.state.role.defender ? "deepskyblue" : "gray"} />
+                                    <Button
+                                        title="Healthy"
+                                        onPress={() => this.handleInputChange("broken", 3)}
+                                        color={this.state.broken === 3 ? "deepskyblue" : "gray"}
+                                    />
                                 </View>
                             </View>
                         </View>

@@ -6,8 +6,14 @@ import {generateProcessedTasks, matchId} from "../utils/matchUtils";
 import {findTeamMatches} from "./selectors";
 import {eventTypeAbbrList} from "../utils/eventTypeUtils";
 
-const resultsReducer = (state = {}, action) => {
+const assignNestedState = (state, key, source) => {
+    return Object.assign(state,
+        {
+            [key]: Object.assign(_get(state, key, {}), source)
+        });
+};
 
+const resultsReducer = (state = {}, action) => {
     switch (action.type) {
         case 'SAVE_MATCH_OFFLINE':
             const rawResult = _get(action, "payload", {});
@@ -15,37 +21,27 @@ const resultsReducer = (state = {}, action) => {
                 console.warn("Improperly formatted payload for saveGameOffline()");
                 return state
             }
-            return Object.assign(state,{
-                    [matchId(rawResult)]:
-                        Object.assign(rawResult, {
-                            'submitted': false,
-                            'taskMap': generateProcessedTasks(rawResult)
-                        })
-                }
-                );
+            const result = Object.assign(rawResult, {
+                'submitted': false,
+                'taskMap': generateProcessedTasks(rawResult)
+            });
+            return assignNestedState(state, matchId(rawResult), result);
+
         default:
             return state;
     }
 };
 
-
-const assignTeamState = (state, teamNum, source) => {
-    return Object.assign(state,
-        {
-            [`_${teamNum}`]: Object.assign(_get(state, teamNum, {}), source)
-        });
-}
-
-const teamReducer = (state = { }, action) => {
-
+const teamReducer = (state = {}, action) => {
     const teamNum = _get(action, "payload.teamNum", 0);
 
     switch (action.type) {
         case 'ADD_RESULT':
-            const matchIds = [..._get(state, `_${teamNum}.matches`, []), matchId(action.payload)];
-            return assignTeamState(state,  teamNum, { matches: matchIds });
+            const matchIds = [..._get(state, `${teamNum}.matches`, []), matchId(action.payload)];
+            return assignNestedState(state,  teamNum, { matches: matchIds });
+
         case 'CALCULATE_AVERAGES':
-            const matches = findTeamMatches(action.state, { teamNum: action.payload.teamNum });
+            const matches = findTeamMatches(action.globalState, { teamNum: action.payload.teamNum });
             const taskAverageMap = {};
 
             eventTypeAbbrList.forEach((eventTypeAbbr) => {
@@ -62,7 +58,9 @@ const teamReducer = (state = { }, action) => {
                 });
                 taskAverageMap[eventTypeAbbr] = { count: _mean(matchCount), time: _mean(allTasks)};
             });
-            return assignTeamState(state, teamNum, { taskAverageMap });
+
+            return assignNestedState(state, teamNum, { taskAverageMap });
+
         default:
             return state;
     }

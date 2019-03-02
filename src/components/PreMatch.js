@@ -6,9 +6,9 @@ import ActionButton from "./ActionButton.js";
 
 class PreGame extends React.Component {
     state = {
-        startHolding: "",
-        startHAB: "",
-        startConfig: ""
+        piece: "",
+        pos: "",
+        config: ""
     };
 
     handleInputChange = (name, value) => {
@@ -20,7 +20,7 @@ class PreGame extends React.Component {
     };
 
     startGame = () => {
-        this.props.updateMainState({ ...this.state, showPage: "scouting" });
+        this.props.updateMainState({ preMatch: this.state, showPage: "scouting" });
     };
 
     render() {
@@ -28,40 +28,80 @@ class PreGame extends React.Component {
             <View style={styles.container}>
                 <View style={styles.actionsContainer}>
                     <View style={styles.buttonWrapper}>
-                        <ActionButton action="lvl_1" type="startHAB" value={this.state.startHAB} page="prematch" handleButtonPress={this.handleButtonPress}>
-                            <Text>HAB Level 1</Text>
+                        <ActionButton
+                            action="hatch"
+                            type="piece"
+                            value={this.state.piece}
+                            page="prematch"
+                            handleButtonPress={this.handleButtonPress}
+                        >
+                            <Text>Robot Holding</Text>
+                            <Text>Hatch</Text>
                         </ActionButton>
-                        <ActionButton action="lvl_2" type="startHAB" value={this.state.startHAB} page="prematch" handleButtonPress={this.handleButtonPress}>
-                            <Text>HAB Level 2</Text>
+                        <ActionButton
+                            action="cargo"
+                            type="piece"
+                            value={this.state.piece}
+                            page="prematch"
+                            handleButtonPress={this.handleButtonPress}
+                        >
+                            <Text>Robot Holding</Text>
+                            <Text>Cargo</Text>
                         </ActionButton>
                     </View>
 
                     <View style={styles.divider} />
 
                     <View style={styles.buttonWrapper}>
-                        <ActionButton action="cs_c" type="startConfig" value={this.state.startConfig} page="prematch" handleButtonPress={this.handleButtonPress}>
+                        <ActionButton
+                            action="cs_c"
+                            type="config"
+                            value={this.state.config}
+                            page="prematch"
+                            handleButtonPress={this.handleButtonPress}
+                        >
                             <Text>Cargo Ship</Text>
                             <Text>Two Cargo</Text>
                         </ActionButton>
-                        <ActionButton action="car" type="startHolding" value={this.state.startHolding} page="prematch" handleButtonPress={this.handleButtonPress}>
-                            <Text>Robot Holding</Text>
-                            <Text>Cargo</Text>
+                        <ActionButton
+                            action="lvl_1"
+                            type="pos"
+                            value={this.state.pos}
+                            page="prematch"
+                            handleButtonPress={this.handleButtonPress}
+                        >
+                            <Text>HAB Level 1</Text>
                         </ActionButton>
                     </View>
-
                     <View style={styles.buttonWrapper}>
-                        <ActionButton action="cs_1-1" type="startConfig" value={this.state.startConfig} page="prematch" handleButtonPress={this.handleButtonPress}>
+                        <ActionButton
+                            action="cs_1-1"
+                            type="config"
+                            value={this.state.config}
+                            page="prematch"
+                            handleButtonPress={this.handleButtonPress}
+                        >
                             <Text>Cargo Ship</Text>
                             <Text>One Cargo | One Hatch</Text>
                         </ActionButton>
-                        <ActionButton action="hat" type="startHolding" value={this.state.startHolding} page="prematch" handleButtonPress={this.handleButtonPress}>
-                            <Text>Robot Holding</Text>
-                            <Text>Hatch</Text>
+                        <ActionButton
+                            action="lvl_2"
+                            type="pos"
+                            value={this.state.pos}
+                            page="prematch"
+                            handleButtonPress={this.handleButtonPress}
+                        >
+                            <Text>HAB Level 2</Text>
                         </ActionButton>
                     </View>
-
                     <View style={styles.buttonWrapper}>
-                        <ActionButton action="cs_h" type="startConfig" value={this.state.startConfig} page="prematch" handleButtonPress={this.handleButtonPress}>
+                        <ActionButton
+                            action="cs_h"
+                            type="config"
+                            value={this.state.config}
+                            page="prematch"
+                            handleButtonPress={this.handleButtonPress}
+                        >
                             <Text>Cargo Ship</Text>
                             <Text>Two Hatches</Text>
                         </ActionButton>

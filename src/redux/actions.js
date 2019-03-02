@@ -21,22 +21,26 @@ function addResults(matchNum, teamNum) {
     };
 }
 
-export function recalculateAverages(state, teamNum) {
+export function recalculateAverages(globalState, teamNum) {
     return {
         type: 'CALCULATE_AVERAGES',
         payload: {teamNum},
-        state
+        globalState
     };
 }
 
 export function saveMatch(rawResult) {
     return (dispatch, getState) => {
         return Promise.resolve(
+            console.log(getState())
+        ).then(() =>
             dispatch(saveRawMatchOffline(rawResult))
         ).then(() => {
             dispatch(addResults(rawResult.matchNum, rawResult.teamNum))
         }).then(() => {
             dispatch(recalculateAverages(getState(), rawResult.teamNum))
+        }).then(() => {
+            console.log(getState())
         });
     }
 }

@@ -37,7 +37,7 @@ import _has from 'lodash/has';
         { 'time': 142653, 'type': 'CLMB_S' },
         { 'time': 147653, 'type': 'CLMB_F' }
     ],
-    'postGame': {
+    'postMatch': {
         'pos': 'lvl2',
         'host': 0,
         'liftability': 'good',
@@ -75,8 +75,7 @@ function validatePostMatch(rawResults) {
         validateHelper(rawResults, 'postMatch.hosting') &&
         validateHelper(rawResults, 'postMatch.liftability') &&
         validateHelper(rawResults, 'postMatch.defense') &&
-        validateHelper(rawResults, 'postMatch.broken') &&
-        validateHelper(rawResults, 'postMatch.roles');
+        validateHelper(rawResults, 'postMatch.broken')
 }
 
 

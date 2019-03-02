@@ -1,6 +1,6 @@
 import React from 'react';
 import { connect } from 'react-redux';
-// import * as reduxActions from "../redux/actions.js";
+import * as reduxActions from "./redux/actions.js";
 import { StyleSheet, Text, View, Button, StatusBar, TouchableOpacity, TextInput, Switch } from 'react-native';
 import Schedule from "./components/Schedule.js";
 import PreMatch from "./components/PreMatch.js";
@@ -50,36 +50,49 @@ class Main extends React.Component {
         j: 0,
 
         // PreMatch
-        startHolding: "",
-        startHAB: "",
-        startConfig: "",
+        preMatch: {
+            piece: "",
+            pos: "",
+            config: ""
+        },
 
         // Scouting
-        events: [],
+        timeline: [],
 
         // PostMatch
-        robotBreak: null,
-        endLevel: null,
-        host: null,
-        liftablitity: null,
-        defense: null,
-        role: {
-            cargoShipper: false,
-            rocketeer: false,
-            climber: false
+        postMatch: {
+            robotBreak: null,
+            pos: null,
+            host: null,
+            liftability: null,
+            defense: null
         }
     };
 
+    currTeamNum = () => {
+        let { showPage, teamArr, i, j } = this.state;
+        return teamArr[i][j];
+    };
+
     updateMainState = (stateObj) => {
-        this.setState(stateObj,
-            () => console.log(stateObj)
+        this.setState(stateObj/*,
+            () => console.log(stateObj)*/
         );
+    };
+
+    saveMatch = () => {
+        let { preMatch, timeline, postMatch, i } = this.state;
+        let rawResult = { preMatch, timeline, postMatch, matchNum: i + 1, teamNum: this.currTeamNum() };
+        console.log("****RAWRESULTS***");
+        console.log(rawResult);
+        console.log('going into Redux');
+        this.props.saveMatch(rawResult);
     };
 
     showTeamInfo = () => {
         let { showPage, teamArr, i, j } = this.state;
         if (showPage === "prematch" || showPage === "scouting" || showPage === "postmatch") {
-            return <Text>Match: {i + 1} | Team: {teamArr[i][j]}</Text>
+            return <Text>Match: {i + 1} | Team: {this.currTeamNum()}</Text>
         }
     };
 
@@ -93,7 +106,7 @@ class Main extends React.Component {
             case "scouting":
                 return <Scouting updateMainState={this.updateMainState} />;
             case "postmatch":
-                return <PostMatch updateMainState={this.updateMainState} currentMatch={this.state.match} i={i} />;
+                return <PostMatch updateMainState={this.updateMainState} currentMatch={this.state.match} i={i} saveMatch={this.saveMatch}/>;
             case "teams":
                 return <Teams updateMainState={this.updateMainState} teamArr={teamArr} i={i} j={j} />;
             case "sync":
@@ -161,8 +174,12 @@ const styles = StyleSheet.create({
     }
 });
 
-const mapStoreToProps = store => {
-    return { ...store };
+const mapStoreToProps = store => {return {} };
+
+const mapDispatchToProps = dispatch => {
+    return {
+        saveMatch: (rawResult) => dispatch(reduxActions.saveMatch(rawResult))
+    }
 };
 
-export default connect(mapStoreToProps)(Main);
+export default connect(mapStoreToProps, mapDispatchToProps)(Main);
