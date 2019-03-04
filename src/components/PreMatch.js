@@ -1,11 +1,8 @@
 import React from 'react';
 import { connect } from 'react-redux';
 import * as reduxActions from "../redux/actions.js";
-import NavBar, { NavButton, NavButtonText, NavTitle } from 'react-native-nav';
 import { StyleSheet, Text, View, Button, StatusBar, TouchableOpacity, TextInput, Switch } from 'react-native';
 import ActionButton from "./ActionButton.js";
-import AnimatedBar from "./AnimatedBar.js";
-// import moment from "moment";
 
 class PreGame extends React.Component {
     state = {

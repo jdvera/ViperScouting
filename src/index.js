@@ -1,18 +1,19 @@
 import React from 'react';
 import { connect } from 'react-redux';
 // import * as reduxActions from "../redux/actions.js";
-import NavBar, { NavButton, NavButtonText, NavTitle } from 'react-native-nav';
 import { StyleSheet, Text, View, Button, StatusBar, TouchableOpacity, TextInput, Switch } from 'react-native';
-// import ActionButton from "./ActionButton.js";
-// import AnimatedBar from "./AnimatedBar.js";
+import Schedule from "./components/Schedule.js";
 import PreMatch from "./components/PreMatch.js";
 import Scouting from "./components/Scouting.js";
 import PostMatch from "./components/PostMatch.js";
+import Teams from "./components/Teams.js";
+import Sync from "./components/Sync.js";
+import NavButton from "./components/NavButton.js";
 
 
 class Main extends React.Component {
     state = {
-        showPage: "prematch",
+        showPage: "schedule",
 
         // PreMatch
         matchNum: "",
@@ -49,7 +50,7 @@ class Main extends React.Component {
 
     showTeamInfo = () => {
         const { showPage, matchNum, teamNum } = this.state;
-        if (showPage !== "prematch") {
+        if (showPage === "scouting" || showPage === "postmatch") {
             if (matchNum.length && teamNum.length) {
                 return <Text>Match: {matchNum} | Team: {teamNum}</Text>
             }
@@ -58,12 +59,18 @@ class Main extends React.Component {
 
     pageToDisplay = () => {
         switch (this.state.showPage) {
+            case "schedule":
+                return <Schedule handleChangePage={this.handleChangePage} updateMainState={this.updateMainState} />;
             case "prematch":
                 return <PreMatch handleChangePage={this.handleChangePage} updateMainState={this.updateMainState} />;
             case "scouting":
                 return <Scouting handleChangePage={this.handleChangePage} updateMainState={this.updateMainState} />;
             case "postmatch":
                 return <PostMatch handleChangePage={this.handleChangePage} updateMainState={this.updateMainState} />;
+            case "teams":
+                return <Teams handleChangePage={this.handleChangePage} updateMainState={this.updateMainState} />;
+            case "sync":
+                return <Sync handleChangePage={this.handleChangePage} updateMainState={this.updateMainState} />;
         }
     };
 
@@ -75,15 +82,26 @@ class Main extends React.Component {
                     <Text>Viper Scouting</Text>
                     {this.showTeamInfo()}
                     <View style={styles.row}>
-                        <TouchableOpacity style={styles.navButtons} onPress={() => this.handleChangePage("prematch")}>
-                            <Text style={{ color: this.state.showPage === "prematch" ? "blue" : "black" }}>Pre-Match</Text>
-                        </TouchableOpacity>
-                        <TouchableOpacity style={styles.navButtons} onPress={() => this.handleChangePage("scouting")}>
-                            <Text style={{ color: this.state.showPage === "scouting" ? "blue" : "black" }}>Scouting</Text>
-                        </TouchableOpacity>
-                        <TouchableOpacity style={styles.navButtons} onPress={() => this.handleChangePage("postmatch")}>
-                            <Text style={{ color: this.state.showPage === "postmatch" ? "blue" : "black" }}>Post Match</Text>
-                        </TouchableOpacity>
+
+                        <NavButton showPage={this.state.showPage} name="schedule" handleChangePage={this.handleChangePage}>
+                            Schedule
+                        </NavButton>
+                        <NavButton showPage={this.state.showPage} name="prematch" handleChangePage={this.handleChangePage}>
+                            Pre-Match
+                        </NavButton>
+                        <NavButton showPage={this.state.showPage} name="scouting" handleChangePage={this.handleChangePage}>
+                            Scouting
+                        </NavButton>
+                        <NavButton showPage={this.state.showPage} name="postmatch" handleChangePage={this.handleChangePage}>
+                            Post Match
+                        </NavButton>
+                        <NavButton showPage={this.state.showPage} name="teams" handleChangePage={this.handleChangePage}>
+                            Teams
+                        </NavButton>
+                        <NavButton showPage={this.state.showPage} name="sync" handleChangePage={this.handleChangePage}>
+                            Sync
+                        </NavButton>
+
                     </View>
                 </View>
                 {this.pageToDisplay()}
@@ -116,4 +134,8 @@ const styles = StyleSheet.create({
     }
 });
 
-export default Main;
+const mapStoreToProps = store => {
+    return { ...store };
+};
+
+export default connect(mapStoreToProps)(Main);

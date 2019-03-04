@@ -1,7 +1,6 @@
 import React from 'react';
 import { connect } from 'react-redux';
 import * as reduxActions from "../redux/actions.js";
-import NavBar, { NavButton, NavButtonText, NavTitle } from 'react-native-nav';
 import { StyleSheet, Text, View, Button, StatusBar, TouchableOpacity, TextInput, Switch } from 'react-native';
 import ActionButton from "./ActionButton.js";
 import AnimatedBar from "./AnimatedBar.js";
@@ -27,13 +26,13 @@ class Scouting extends React.Component {
 
     componentDidMount() {
         this.startTimer();
-    }
+    };
 
     componentWillUnmount() {
         if (this.state.intervalId) {
             clearInterval(this.state.intervalId);
         }
-    }
+    };
 
     handleButtonPress = (type, action) => {
         if (this.state.intervalId) {
@@ -46,13 +45,6 @@ class Scouting extends React.Component {
         }
     };
 
-    handleInputChange = (name, value) => {
-        this.setState({ [name]: value }, () => {
-            const { schoolName, endLevel, robotBreak } = this.state;
-            console.log({ schoolName, endLevel, robotBreak });
-        });
-    };
-
     handlePickup = action => {
         const { events, carrying, startTime, undoing } = this.state;
         const stateObj = {
@@ -61,14 +53,11 @@ class Scouting extends React.Component {
             events
         };
 
-        console.log("----------------");
         if (carrying) {
-            console.log("- PICKUP - switched carried obj to " + action);
             index = undoing ? 2 : 1;
             stateObj.events[events.length - index].type = action;
         }
         else {
-            console.log("- PICKUP - new carried obj: " + action);
             const time = Date.now() - startTime;
             const event = {
                 type: action,
@@ -77,18 +66,13 @@ class Scouting extends React.Component {
             stateObj.events.push(event);
         }
         this.setState(stateObj);
-
-        console.log(stateObj);
-        console.log("----------------");
     };
 
     handleTask = action => {
         const { events, carrying, startTime, undoing } = this.state;
         let stateObj;
 
-        console.log("----------------");
         if (action === "undo") {
-            console.log("- TASK - starting undo");
             stateObj = {
                 carrying: events[events.length - 1].type[0] + "_",
                 lastAction: null,
@@ -96,7 +80,6 @@ class Scouting extends React.Component {
             };
         }
         else if (undoing) {
-            console.log("- TASK - completing undo");
             events[events.length - 1].type = carrying + action;
             stateObj = {
                 carrying: null,
@@ -106,7 +89,6 @@ class Scouting extends React.Component {
             };
         }
         else if (carrying) {
-            console.log("- TASK - new task competed: " + carrying + action);
             const time = Date.now() - startTime;
             const event = {
                 type: carrying + action,
@@ -120,36 +102,7 @@ class Scouting extends React.Component {
             };
         }
         this.setState(stateObj);
-
-        console.log(stateObj);
-        console.log("----------------");
     };
-
-    submitGameData = () => {
-        const { events } = this.state;
-        this.props.dispatch(reduxActions.loadGameData({
-            schoolName: { events }
-        }));
-        this.setState({ savedToRedux: true }, () => {
-            console.log(this.props.gameState);
-        })
-    }
-
-    restartGame = () => {
-        this.setState({
-            showHome: true,
-            postMatch: false,
-            intervalId: null,
-            startTime: null,
-            time: 0,
-            prog: 0,
-            carrying: null,
-            lastAction: null,
-            undoing: false,
-            events: [],
-            savedToRedux: false
-        }, this.startTimer);
-    }
 
     startTimer = () => {
         if (!this.state.intervalId) {
@@ -173,21 +126,10 @@ class Scouting extends React.Component {
         }
     };
 
-    stopTimer = () => {
-        if (this.state.intervalId) {
-            clearInterval(this.state.intervalId);
-            this.setState({
-                showHome: true,
-                intervalId: null,
-                time: 0
-            });
-        }
-    };
-
     displayTime = () => {
         let { time } = this.state;
-        let minutes = Math.floor(time / 150000);
-        time = time - (minutes * 150000);
+        let minutes = Math.floor(time / 60000);
+        time = time - (minutes * 60000);
         let seconds = Math.floor(time / 1000);
         if (seconds < 10) {
             seconds = "0" + seconds;
@@ -251,10 +193,9 @@ class Scouting extends React.Component {
                 <Text>{lastEventText && "Last Event: " + lastEventText}</Text>
             </View>
         )
-    }
+    };
 
     render() {
-
         return (
             <View style={styles.container}>
                 <View style={styles.actionsContainer}>
@@ -267,9 +208,7 @@ class Scouting extends React.Component {
                         </ActionButton>
                     </View>
 
-                    <View style={styles.divider}>
-                        {/* intentionally left blank */}
-                    </View>
+                    <View style={styles.divider} />
 
                     <View style={styles.buttonWrapper}>
                         <ActionButton action="r1" type="task" lastAction={this.state.lastAction} carrying={this.state.carrying} handleButtonPress={this.handleButtonPress}>
