@@ -15,12 +15,43 @@ import { StyleSheet, Text, TouchableOpacity } from 'react-native';
 
 class ActionButton extends React.Component {
     render() {
-        const { lastAction, carrying, type, handleButtonPress } = this.props || {};
+        const { lastAction, carrying, type, handleButtonPress, page, value } = this.props || {};
         let { action, children } = this.props || {};
         let btnStyle;
 
-        if (type === "pickup") {
-            if (carrying && carrying === action) {
+        if (page === "scouting") {
+            if (type === "pickup") {
+                if (carrying && carrying === action) {
+                    btnStyle = {
+                        style: styles.pickupSelected,
+                        disabled: true
+                    };
+                }
+                else {
+                    btnStyle = { style: styles.pickupButton };
+                }
+            }
+            else if (type === "task") {
+                if (!carrying) {
+                    if (lastAction === action) {
+                        btnStyle = { style: styles.undoButton };
+                        action = "undo";
+                        children = <Text>UNDO</Text>;
+                    }
+                    else {
+                        btnStyle = {
+                            style: styles.actionDisabled,
+                            disabled: true
+                        };
+                    }
+                }
+                else {
+                    btnStyle = { style: styles.actionButton }
+                }
+            }
+        }
+        else if (page === "prematch") {
+            if (action === value) {
                 btnStyle = {
                     style: styles.pickupSelected,
                     disabled: true
@@ -28,24 +59,6 @@ class ActionButton extends React.Component {
             }
             else {
                 btnStyle = { style: styles.pickupButton };
-            }
-        }
-        else if (type === "task") {
-            if (!carrying) {
-                if (lastAction === action) {
-                    btnStyle = { style: styles.undoButton };
-                    action = "undo";
-                    children = <Text>UNDO</Text>;
-                }
-                else {
-                    btnStyle = {
-                        style: styles.actionDisabled,
-                        disabled: true
-                    };
-                }
-            }
-            else {
-                btnStyle = { style: styles.actionButton }
             }
         }
 

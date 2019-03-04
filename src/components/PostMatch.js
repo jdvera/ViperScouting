@@ -30,8 +30,7 @@ class PostGame extends React.Component {
     };
 
     submitGameData = () => {
-
-        this.props.updateMainState({ ...this.state }, "prematch");
+        this.props.updateMainState({ ...this.state, match: this.props.currentMatch + 1 }, "prematch");
     };
 
     restartGame = () => {

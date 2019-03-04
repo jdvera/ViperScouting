@@ -15,9 +15,14 @@ class Main extends React.Component {
     state = {
         showPage: "schedule",
 
+        //Schedule
+        teamArr: [6800, 42, 2345, 87],
+        match: null,
+
         // PreMatch
-        matchNum: "",
-        teamNum: "",
+        startHolding: "",
+        startHAB: "",
+        startConfig: "",
 
         // Scouting
         events: [],
@@ -49,24 +54,22 @@ class Main extends React.Component {
     };
 
     showTeamInfo = () => {
-        const { showPage, matchNum, teamNum } = this.state;
-        if (showPage === "scouting" || showPage === "postmatch") {
-            if (matchNum.length && teamNum.length) {
-                return <Text>Match: {matchNum} | Team: {teamNum}</Text>
-            }
+        const { showPage, match, teamArr } = this.state;
+        if (showPage === "prematch" || showPage === "scouting" || showPage === "postmatch") {
+            return <Text>Match: {match + 1} | Team: {teamArr[match]}</Text>
         }
     };
 
     pageToDisplay = () => {
         switch (this.state.showPage) {
             case "schedule":
-                return <Schedule handleChangePage={this.handleChangePage} updateMainState={this.updateMainState} />;
+                return <Schedule handleChangePage={this.handleChangePage} updateMainState={this.updateMainState} teamArr={this.state.teamArr} />;
             case "prematch":
                 return <PreMatch handleChangePage={this.handleChangePage} updateMainState={this.updateMainState} />;
             case "scouting":
                 return <Scouting handleChangePage={this.handleChangePage} updateMainState={this.updateMainState} />;
             case "postmatch":
-                return <PostMatch handleChangePage={this.handleChangePage} updateMainState={this.updateMainState} />;
+                return <PostMatch handleChangePage={this.handleChangePage} updateMainState={this.updateMainState} currentMatch={this.state.match} />;
             case "teams":
                 return <Teams handleChangePage={this.handleChangePage} updateMainState={this.updateMainState} />;
             case "sync":

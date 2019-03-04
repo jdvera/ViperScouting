@@ -6,38 +6,74 @@ import ActionButton from "./ActionButton.js";
 
 class PreGame extends React.Component {
     state = {
-        matchNum: "",
-        teamNum: ""
+        startHolding: "",
+        startHAB: "",
+        startConfig: ""
     };
 
     handleInputChange = (name, value) => {
         this.setState({ [name]: value });
     };
 
+    handleButtonPress = (type, action) => {
+        this.setState({ [type]: action },
+            () => console.log(this.state)
+        );
+    };
+
     startGame = () => {
-        const { matchNum, teamNum } = this.state;
-        const stateObj = { matchNum, teamNum };
-        this.props.updateMainState(stateObj, "scouting");
+        this.props.updateMainState({ ...this.state }, "scouting");
     };
 
     render() {
         return (
             <View style={styles.container}>
-                <View style={{ ...styles.row }}>
-                    <View style={{ flex: 1 }}>{/* intentionally left blank */}</View>
-                    <Text style={{ flex: 1 }}>Match Number</Text>
-                    <TextInput value={this.state.schoolName} onChangeText={value => this.handleInputChange("matchNum", value)} autoCorrect={false} style={styles.inputStyle} />
-                    <View style={{ flex: 1 }}>{/* intentionally left blank */}</View>
+                <View style={styles.actionsContainer}>
+                    <View style={styles.buttonWrapper}>
+                        <ActionButton action="lvl_1" type="startHAB" value={this.state.startHAB} page="prematch" handleButtonPress={this.handleButtonPress}>
+                            <Text>HAB Level 1</Text>
+                        </ActionButton>
+                        <ActionButton action="lvl_2" type="startHAB" value={this.state.startHAB} page="prematch" handleButtonPress={this.handleButtonPress}>
+                            <Text>HAB Level 2</Text>
+                        </ActionButton>
+                    </View>
+
+                    <View style={styles.divider} />
+
+                    <View style={styles.buttonWrapper}>
+                        <ActionButton action="cs_c" type="startConfig" value={this.state.startConfig} page="prematch" handleButtonPress={this.handleButtonPress}>
+                            <Text>Cargo Ship</Text>
+                            <Text>Two Cargo</Text>
+                        </ActionButton>
+                        <ActionButton action="car" type="startHolding" value={this.state.startHolding} page="prematch" handleButtonPress={this.handleButtonPress}>
+                            <Text>Robot Holding</Text>
+                            <Text>Cargo</Text>
+                        </ActionButton>
+                    </View>
+
+                    <View style={styles.buttonWrapper}>
+                        <ActionButton action="cs_1-1" type="startConfig" value={this.state.startConfig} page="prematch" handleButtonPress={this.handleButtonPress}>
+                            <Text>Cargo Ship</Text>
+                            <Text>One Cargo | One Hatch</Text>
+                        </ActionButton>
+                        <ActionButton action="hat" type="startHolding" value={this.state.startHolding} page="prematch" handleButtonPress={this.handleButtonPress}>
+                            <Text>Robot Holding</Text>
+                            <Text>Hatch</Text>
+                        </ActionButton>
+                    </View>
+
+                    <View style={styles.buttonWrapper}>
+                        <ActionButton action="cs_h" type="startConfig" value={this.state.startConfig} page="prematch" handleButtonPress={this.handleButtonPress}>
+                            <Text>Cargo Ship</Text>
+                            <Text>Two Hatches</Text>
+                        </ActionButton>
+                        <View style={styles.status} />
+                    </View>
                 </View>
-                <View style={{ ...styles.row }}>
-                    <View style={{ flex: 1 }}>{/* intentionally left blank */}</View>
-                    <Text style={{ flex: 1 }}>Team Number</Text>
-                    <TextInput value={this.state.schoolName} onChangeText={value => this.handleInputChange("teamNum", value)} autoCorrect={false} style={styles.inputStyle} />
-                    <View style={{ flex: 1 }}>{/* intentionally left blank */}</View>
-                </View>
-                <TouchableOpacity style={styles.startButton} onPress={this.startGame}>
+                {/* <TouchableOpacity style={styles.startButton} onPress={this.startGame}>
                     <Text>Start Game</Text>
-                </TouchableOpacity>
+                </TouchableOpacity> */}
+                <Button title="Start Game" onPress={this.startGame} />
             </View>
         );
     };
@@ -48,7 +84,8 @@ const styles = StyleSheet.create({
     container: {
         flex: 1,
         alignItems: 'center',
-        justifyContent: 'space-around'
+        justifyContent: 'space-around',
+        alignItems: "stretch"
     },
     actionsContainer: {
         flex: 1,
@@ -70,7 +107,6 @@ const styles = StyleSheet.create({
     },
     status: {
         flex: 1,
-        // alignItems: "center",
         justifyContent: "center",
         margin: 20
     },

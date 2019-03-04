@@ -200,10 +200,10 @@ class Scouting extends React.Component {
             <View style={styles.container}>
                 <View style={styles.actionsContainer}>
                     <View style={styles.buttonWrapper}>
-                        <ActionButton action="h_" type="pickup" lastAction={this.state.lastAction} carrying={this.state.carrying} handleButtonPress={this.handleButtonPress}>
+                        <ActionButton action="h_" type="pickup" page="scouting" lastAction={this.state.lastAction} carrying={this.state.carrying} handleButtonPress={this.handleButtonPress}>
                             <Text>PickUp Hatch</Text>
                         </ActionButton>
-                        <ActionButton action="c_" type="pickup" lastAction={this.state.lastAction} carrying={this.state.carrying} handleButtonPress={this.handleButtonPress}>
+                        <ActionButton action="c_" type="pickup" page="scouting" lastAction={this.state.lastAction} carrying={this.state.carrying} handleButtonPress={this.handleButtonPress}>
                             <Text>PickUp Cargo</Text>
                         </ActionButton>
                     </View>
@@ -211,25 +211,25 @@ class Scouting extends React.Component {
                     <View style={styles.divider} />
 
                     <View style={styles.buttonWrapper}>
-                        <ActionButton action="r1" type="task" lastAction={this.state.lastAction} carrying={this.state.carrying} handleButtonPress={this.handleButtonPress}>
+                        <ActionButton action="r1" type="task" page="scouting" lastAction={this.state.lastAction} carrying={this.state.carrying} handleButtonPress={this.handleButtonPress}>
                             <Text>Rocket 1</Text>
                         </ActionButton>
-                        <ActionButton action="dp" type="task" lastAction={this.state.lastAction} carrying={this.state.carrying} handleButtonPress={this.handleButtonPress}>
+                        <ActionButton action="dp" type="task" page="scouting" lastAction={this.state.lastAction} carrying={this.state.carrying} handleButtonPress={this.handleButtonPress}>
                             <Text>Drop</Text>
                         </ActionButton>
                     </View>
 
                     <View style={styles.buttonWrapper}>
-                        <ActionButton action="r2" type="task" lastAction={this.state.lastAction} carrying={this.state.carrying} handleButtonPress={this.handleButtonPress}>
+                        <ActionButton action="r2" type="task" page="scouting" lastAction={this.state.lastAction} carrying={this.state.carrying} handleButtonPress={this.handleButtonPress}>
                             <Text>Rocket 2</Text>
                         </ActionButton>
-                        <ActionButton action="cs" type="task" lastAction={this.state.lastAction} carrying={this.state.carrying} handleButtonPress={this.handleButtonPress}>
+                        <ActionButton action="cs" type="task" page="scouting" lastAction={this.state.lastAction} carrying={this.state.carrying} handleButtonPress={this.handleButtonPress}>
                             <Text>Cargo Ship</Text>
                         </ActionButton>
                     </View>
 
                     <View style={styles.buttonWrapper}>
-                        <ActionButton action="r3" type="task" lastAction={this.state.lastAction} carrying={this.state.carrying} handleButtonPress={this.handleButtonPress}>
+                        <ActionButton action="r3" type="task" page="scouting" lastAction={this.state.lastAction} carrying={this.state.carrying} handleButtonPress={this.handleButtonPress}>
                             <Text>Rocket 3</Text>
                         </ActionButton>
                         {this.displayGameState()}
@@ -286,7 +286,6 @@ const styles = StyleSheet.create({
     },
     status: {
         flex: 1,
-        // alignItems: "center",
         justifyContent: "center",
         margin: 20
     },
