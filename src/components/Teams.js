@@ -8,9 +8,10 @@ import { StyleSheet, Text, View, Button, StatusBar, TouchableOpacity, TextInput,
 
 class Teams extends React.Component {
     render() {
+        const { teamArr, i, j } = this.props;
         return (
             <View style={styles.container}>
-                <Text>Teams Page</Text>
+                <Text>Team {teamArr[i][j]} Page</Text>
             </View>
         );
     };

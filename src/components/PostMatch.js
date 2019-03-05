@@ -30,11 +30,9 @@ class PostGame extends React.Component {
     };
 
     submitGameData = () => {
-        this.props.updateMainState({ ...this.state, match: this.props.currentMatch + 1 }, "prematch");
-    };
-
-    restartGame = () => {
-        this.props.handleChangePage("scouting");
+        let { i } = this.props;
+        i++;
+        this.props.updateMainState({ ...this.state, i, showPage: "prematch" });
     };
 
     render() {

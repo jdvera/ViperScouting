@@ -16,8 +16,38 @@ class Main extends React.Component {
         showPage: "schedule",
 
         //Schedule
-        teamArr: [6800, 42, 2345, 87],
-        match: null,
+        teamArr: [
+            [6800, "0001", 2300, 3400, 5600, 6700],
+            [6800, "0002", 2300, 3400, 5600, 6700],
+            [6800, "0003", 2300, 3400, 5600, 6700],
+            [6800, "0004", 2300, 3400, 5600, 6700],
+            [6800, "0005", 2300, 3400, 5600, 6700],
+            [6800, "0006", 2300, 3400, 5600, 6700],
+            [6800, "0007", 2300, 3400, 5600, 6700],
+            [6800, "0008", 2300, 3400, 5600, 6700],
+            [6800, "0009", 2300, 3400, 5600, 6700],
+            [6800, "0010", 2300, 3400, 5600, 6700],
+            [6800, "0011", 2300, 3400, 5600, 6700],
+            [6800, "0012", 2300, 3400, 5600, 6700],
+            [6800, "0013", 2300, 3400, 5600, 6700],
+            [6800, "0014", 2300, 3400, 5600, 6700],
+            [6800, "0015", 2300, 3400, 5600, 6700],
+            [6800, "0016", 2300, 3400, 5600, 6700],
+            [6800, "0017", 2300, 3400, 5600, 6700],
+            [6800, "0018", 2300, 3400, 5600, 6700],
+            [6800, "0019", 2300, 3400, 5600, 6700],
+            [6800, "0020", 2300, 3400, 5600, 6700],
+            [6800, "0021", 2300, 3400, 5600, 6700],
+            [6800, "0022", 2300, 3400, 5600, 6700],
+            [6800, "0023", 2300, 3400, 5600, 6700],
+            [6800, "0024", 2300, 3400, 5600, 6700],
+            [6800, "0025", 2300, 3400, 5600, 6700],
+            [6800, "0026", 2300, 3400, 5600, 6700],
+            [6800, "0027", 2300, 3400, 5600, 6700],
+            [6800, "0028", 2300, 3400, 5600, 6700]
+        ],
+        i: 0,
+        j: 0,
 
         // PreMatch
         startHolding: "",
@@ -40,40 +70,34 @@ class Main extends React.Component {
         }
     };
 
-    handleChangePage = page => {
-        this.setState({ showPage: page });
-    };
-
-    updateMainState = (stateObj, nextPage) => {
-        this.setState(stateObj, () => {
-            console.log(this.state);
-            if (nextPage) {
-                this.handleChangePage(nextPage);
-            }
-        });
+    updateMainState = (stateObj) => {
+        this.setState(stateObj,
+            () => console.log(stateObj)
+        );
     };
 
     showTeamInfo = () => {
-        const { showPage, match, teamArr } = this.state;
+        let { showPage, teamArr, i, j } = this.state;
         if (showPage === "prematch" || showPage === "scouting" || showPage === "postmatch") {
-            return <Text>Match: {match + 1} | Team: {teamArr[match]}</Text>
+            return <Text>Match: {i + 1} | Team: {teamArr[i][j]}</Text>
         }
     };
 
     pageToDisplay = () => {
+        let { i, j, teamArr } = this.state;
         switch (this.state.showPage) {
             case "schedule":
-                return <Schedule handleChangePage={this.handleChangePage} updateMainState={this.updateMainState} teamArr={this.state.teamArr} />;
+                return <Schedule updateMainState={this.updateMainState} teamArr={teamArr} i={i} j={j} />;
             case "prematch":
-                return <PreMatch handleChangePage={this.handleChangePage} updateMainState={this.updateMainState} />;
+                return <PreMatch updateMainState={this.updateMainState} />;
             case "scouting":
-                return <Scouting handleChangePage={this.handleChangePage} updateMainState={this.updateMainState} />;
+                return <Scouting updateMainState={this.updateMainState} />;
             case "postmatch":
-                return <PostMatch handleChangePage={this.handleChangePage} updateMainState={this.updateMainState} currentMatch={this.state.match} />;
+                return <PostMatch updateMainState={this.updateMainState} currentMatch={this.state.match} i={i} />;
             case "teams":
-                return <Teams handleChangePage={this.handleChangePage} updateMainState={this.updateMainState} />;
+                return <Teams updateMainState={this.updateMainState} teamArr={teamArr} i={i} j={j} />;
             case "sync":
-                return <Sync handleChangePage={this.handleChangePage} updateMainState={this.updateMainState} />;
+                return <Sync updateMainState={this.updateMainState} />;
         }
     };
 
@@ -86,22 +110,22 @@ class Main extends React.Component {
                     {this.showTeamInfo()}
                     <View style={styles.row}>
 
-                        <NavButton showPage={this.state.showPage} name="schedule" handleChangePage={this.handleChangePage}>
+                        <NavButton showPage={this.state.showPage} name="schedule" updateMainState={this.updateMainState}>
                             Schedule
                         </NavButton>
-                        <NavButton showPage={this.state.showPage} name="prematch" handleChangePage={this.handleChangePage}>
+                        <NavButton showPage={this.state.showPage} name="prematch" updateMainState={this.updateMainState}>
                             Pre-Match
                         </NavButton>
-                        <NavButton showPage={this.state.showPage} name="scouting" handleChangePage={this.handleChangePage}>
+                        <NavButton showPage={this.state.showPage} name="scouting" updateMainState={this.updateMainState}>
                             Scouting
                         </NavButton>
-                        <NavButton showPage={this.state.showPage} name="postmatch" handleChangePage={this.handleChangePage}>
+                        <NavButton showPage={this.state.showPage} name="postmatch" updateMainState={this.updateMainState}>
                             Post Match
                         </NavButton>
-                        <NavButton showPage={this.state.showPage} name="teams" handleChangePage={this.handleChangePage}>
+                        <NavButton showPage={this.state.showPage} name="teams" updateMainState={this.updateMainState}>
                             Teams
                         </NavButton>
-                        <NavButton showPage={this.state.showPage} name="sync" handleChangePage={this.handleChangePage}>
+                        <NavButton showPage={this.state.showPage} name="sync" updateMainState={this.updateMainState}>
                             Sync
                         </NavButton>
 

@@ -16,13 +16,11 @@ class PreGame extends React.Component {
     };
 
     handleButtonPress = (type, action) => {
-        this.setState({ [type]: action },
-            () => console.log(this.state)
-        );
+        this.setState({ [type]: action });
     };
 
     startGame = () => {
-        this.props.updateMainState({ ...this.state }, "scouting");
+        this.props.updateMainState({ ...this.state, showPage: "scouting" });
     };
 
     render() {

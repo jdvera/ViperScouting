@@ -140,8 +140,8 @@ class Scouting extends React.Component {
 
     handleChangePage = () => {
         const { events } = this.state;
-        const stateObj = { events };
-        this.props.updateMainState(stateObj, "postmatch");
+        const stateObj = { events, showPage: "postmatch" };
+        this.props.updateMainState(stateObj);
     };
 
     displayGameState = () => {

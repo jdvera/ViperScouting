@@ -23,7 +23,7 @@ class NavButton extends React.Component {
 
 
         return (
-            <TouchableOpacity style={styles.navButton} onPress={() => this.props.handleChangePage(name)} {...buttonDisable}>
+            <TouchableOpacity style={styles.navButton} onPress={() => this.props.updateMainState({ showPage: name })} {...buttonDisable}>
                 <Text style={{ ...textStyle }}>
                     {children}
                 </Text>
