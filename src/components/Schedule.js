@@ -1,30 +1,36 @@
 import React from 'react';
 import { connect } from 'react-redux';
 // import * as reduxActions from "../redux/actions.js";
-import { StyleSheet, Text, View, Button, StatusBar, TouchableOpacity, TextInput, Switch, ScrollView } from 'react-native';
+import { StyleSheet, Text, View, Button, StatusBar, TouchableOpacity, TextInput, Switch, ScrollView, Dimensions } from 'react-native';
 
 class Schedule extends React.Component {
     generateTable = () => {
         const tableRows = [];
         this.props.teamArr.forEach((value, i) => {
-            const teamsRow = [];
+            const blueTeam = [];
+            const redTeam = [];
             value.forEach((teamValue, j) => {
-                teamsRow.push(
-                    <TouchableOpacity
-                        style={this.props.i === i && this.props.j === j ? { ...styles.tableColumnSelected, borderLeftWidth: StyleSheet.hairlineWidth } : { ...styles.tableColumn, borderLeftWidth: StyleSheet.hairlineWidth }}
-                        onPress={() => this.props.updateMainState({ i, j })}
-                        key={j}
-                    >
-                        <Text>{teamValue}</Text>
-                    </TouchableOpacity>
+                let arr = blueTeam;
+                if (j > 2) arr = redTeam;
+                arr.push(
+                    <View style={[styles.leftBorder, styles.tableColumn]} key={j}>
+                        <TouchableOpacity
+                            style={{ backgroundColor: this.props.i === i && this.props.j === j ? "limegreen" : "azure" }}
+                            onPress={() => this.props.updateMainState({ i, j })}
+                            disabled={this.props.i === i && this.props.j === j}
+                        >
+                            <Text style={styles.tableText}>{teamValue}</Text>
+                        </TouchableOpacity>
+                    </View>
                 );
             });
             tableRows.push(
                 <View style={styles.tableRow} key={i}>
-                    <View style={styles.tableColumn}>
+                    {blueTeam}
+                    <View style={[styles.tableColumn, styles.center, styles.leftBorder]}>
                         <Text>{i + 1}</Text>
                     </View>
-                    {teamsRow}
+                    {redTeam}
                 </View>
             );
         });
@@ -38,19 +44,19 @@ class Schedule extends React.Component {
             <View style={styles.container}>
                 <View style={styles.tableWrapper}>
                     <View style={styles.tableRow}>
-                        <View style={styles.tableHeader}>
-                            <Text>Match</Text>
-                        </View>
-                        <View style={{ ...styles.tableHeader, borderLeftWidth: StyleSheet.hairlineWidth }} />
-                        <View style={styles.tableHeader}>
+                        <View style={[styles.tableHeader, styles.blueBackground]} />
+                        <View style={[styles.tableHeader, styles.blueBackground]} >
                             <Text>Blue Team</Text>
                         </View>
-                        <View style={styles.tableHeader} />
-                        <View style={{ ...styles.tableHeader, borderLeftWidth: StyleSheet.hairlineWidth }} />
-                        <View style={styles.tableHeader}>
+                        <View style={[styles.tableHeader, styles.blueBackground]} />
+                        <View style={[styles.tableHeader, styles.leftBorder]}>
+                            <Text>Match</Text>
+                        </View>
+                        <View style={[styles.tableHeader, styles.redBackground, styles.leftBorder]} />
+                        <View style={[styles.tableHeader, styles.redBackground]}>
                             <Text>Red Team</Text>
                         </View>
-                        <View style={styles.tableHeader} />
+                        <View style={[styles.tableHeader, styles.redBackground]} />
                     </View>
                     <ScrollView>
                         {this.generateTable()}
@@ -75,12 +81,26 @@ const styles = StyleSheet.create({
         flexDirection: "row",
         justifyContent: "space-around"
     },
+    center: {
+        justifyContent: "center",
+        alignItems: "center"
+    },
+    leftBorder: {
+        borderLeftWidth: StyleSheet.hairlineWidth
+    },
+    blueBackground: {
+        backgroundColor: "lightskyblue"
+    },
+    redBackground: {
+        backgroundColor: "lightsalmon"
+    },
+
+    // Table
     tableWrapper: {
         flexDirection: "column",
         alignItems: "stretch",
-        marginTop: 50,
         marginHorizontal: 5,
-        maxHeight: 300,
+        maxHeight: Dimensions.get('window').height * .75,
         borderWidth: StyleSheet.hairlineWidth
     },
     tableRow: {
@@ -97,16 +117,11 @@ const styles = StyleSheet.create({
     },
     tableColumn: {
         flex: 1,
-        justifyContent: "center",
+        justifyContent: "center"
+    },
+    tableText: {
         paddingHorizontal: 20,
         paddingVertical: 5
-    },
-    tableColumnSelected: {
-        flex: 1,
-        justifyContent: "center",
-        paddingHorizontal: 20,
-        paddingVertical: 5,
-        backgroundColor: "limegreen"
     }
 });
 
