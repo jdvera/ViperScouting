@@ -1,8 +1,9 @@
 import { combineReducers } from 'redux';
 import _get from 'lodash/get';
 import _mean from 'lodash/mean';
+import _meanBy from 'lodash/meanBy';
 import {validateRawResults} from "../utils/validators";
-import {generateProcessedTasks, matchId} from "../utils/matchUtils";
+import {calculatePoints, generateProcessedTasks, matchId} from "../utils/matchUtils";
 import {findTeamMatches} from "./selectors";
 import {eventTypeAbbrList} from "../utils/eventTypeUtils";
 
@@ -25,6 +26,9 @@ const resultsReducer = (state = {}, action) => {
                 'submitted': false,
                 'taskMap': generateProcessedTasks(rawResult)
             });
+
+            result.points = calculatePoints(result);
+
             return assignNestedState(state, matchId(rawResult), result);
 
         default:
@@ -45,6 +49,9 @@ const teamReducer = (state = {}, action) => {
             const taskAverageMap = {};
 
             eventTypeAbbrList.forEach((eventTypeAbbr) => {
+
+                console.log(eventTypeAbbr);
+
                 const matchCount = [];
                 const allTasks = [];
                 matches.forEach((match) => {
@@ -55,11 +62,18 @@ const teamReducer = (state = {}, action) => {
                     }
                     matchCount.push(taskRecords.length);
                     allTasks.push(...taskRecords);
+                    console.log(matchCount);
+                    console.log(allTasks);
                 });
                 taskAverageMap[eventTypeAbbr] = { count: _mean(matchCount), time: _mean(allTasks)};
             });
 
-            return assignNestedState(state, teamNum, { taskAverageMap });
+            const avgPts = _meanBy(matches, `points.totalPts`);
+            const avgRocketPts = _meanBy(matches, `points.rocketPts`);
+            const avgCargoShipPts = _meanBy(matches, `points.cargoShipPts`);
+            const avgClimbPts = _meanBy(matches, `points.climbPts`);
+
+            return assignNestedState(state, teamNum, { taskAverageMap, avgPts, avgRocketPts, avgCargoShipPts, avgClimbPts });
 
         default:
             return state;

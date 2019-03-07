@@ -63,24 +63,259 @@
             'weight': 120,
             'matches': ['${matchNum}::${teamNum}'],
             'taskAveragesMap': {
-                'H_': {
-                    'time': num,
-                    'count' num,
-                },
-                'C_': [ 9000, 6000, 7000 ],
-                'H_DP': [ 8653 ],
-                'H_CS': [],
-                'H_R1': [ 6000, 10000 ],
-                'H_R2': [ 14000, 9000 ],
-                'H_R3': [ 7000, 10000 ],
-                'C_DP': [],
-                'C_CS': [],
-                'C_R1': [ 6000, 6000 ],
-                'C_R2': [],
-                'C_R3': [],
-                'CLMB_S': [ 2000 ],
-                'CLMB_F': [ 5000 ]
+                'H_': { 'time': num, 'count' num },
+                'C_': { 'time': num, 'count' num },
+                'H_DP': { 'time': num, 'count' num },
+                'H_CS': { 'time': num, 'count' num },
+                'H_R1': { 'time': num, 'count' num },
+                'H_R2': { 'time': num, 'count' num },
+                'H_R3': { 'time': num, 'count' num },
+                'C_DP': { 'time': num, 'count' num },
+                'C_CS': { 'time': num, 'count' num },
+                'C_R1': { 'time': num, 'count' num },
+                'C_R2': { 'time': num, 'count' num },
+                'C_R3': { 'time': num, 'count' num },
+                'CLMB_S': { 'time': num, 'count' num },
+                'CLMB_F': { 'time': num, 'count' num },
             }
         }
     }
 }
+
+
+
+
+
+
+
+{
+   "results": {
+     "11::2300": {
+       "matchNum": 11,
+       "postMatch": {
+         "broken": 3,
+         "defense": 0,
+         "host": 0,
+         "liftability": 2,
+         "pos": 3,
+       },
+       "preMatch": {
+         "config": "cs_c",
+         "piece": "hatch",
+         "pos": "lvl_1",
+       },
+       "submitted": false,
+       "taskMap": {
+         "CLMB_F": [],
+         "CLMB_S": [],
+         "C_": [
+           641,
+           573,
+           480,
+           561,
+           607,
+           608,
+         ],
+         "C_CS": [],
+         "C_DP": [],
+         "C_R1": [
+           514,
+           512,
+         ],
+         "C_R2": [
+           398,
+           492,
+         ],
+         "C_R3": [
+           492,
+           442,
+         ],
+         "H_": [
+           610,
+           648,
+           654,
+           551,
+           731,
+         ],
+         "H_CS": [],
+         "H_DP": [],
+         "H_R1": [
+           974,
+           605,
+         ],
+         "H_R2": [
+           619,
+           543,
+         ],
+         "H_R3": [
+           531,
+           432,
+         ],
+       },
+       "teamNum": 2300,
+       "timeline": [
+         {
+           "eventType": "H_",
+           "time": 1363,
+         },
+         {
+           "eventType": "H_R1",
+           "time": 2337,
+         },
+         {
+           "eventType": "H_",
+           "time": 2947,
+         },
+         {
+           "eventType": "H_R1",
+           "time": 3552,
+         },
+         {
+           "eventType": "H_",
+           "time": 4200,
+         },
+         {
+           "eventType": "H_R2",
+           "time": 4819,
+         },
+         {
+           "eventType": "H_",
+           "time": 5473,
+         },
+         {
+           "eventType": "H_R2",
+           "time": 6016,
+         },
+         {
+           "eventType": "H_",
+           "time": 6567,
+         },
+         {
+           "eventType": "H_R3",
+           "time": 7098,
+         },
+         {
+           "eventType": "H_",
+           "time": 7829,
+         },
+         {
+           "eventType": "H_R3",
+           "time": 8261,
+         },
+         {
+           "eventType": "C_",
+           "time": 8902,
+         },
+         {
+           "eventType": "C_R1",
+           "time": 9416,
+         },
+         {
+           "eventType": "C_",
+           "time": 9989,
+         },
+         {
+           "eventType": "C_R1",
+           "time": 10501,
+         },
+         {
+           "eventType": "C_",
+           "time": 10981,
+         },
+         {
+           "eventType": "C_R2",
+           "time": 11379,
+         },
+         {
+           "eventType": "C_",
+           "time": 11940,
+         },
+         {
+           "eventType": "C_R2",
+           "time": 12432,
+         },
+         {
+           "eventType": "C_",
+           "time": 13039,
+         },
+         {
+           "eventType": "C_R3",
+           "time": 13531,
+         },
+         {
+           "eventType": "C_",
+           "time": 14139,
+         },
+         {
+           "eventType": "C_R3",
+           "time": 14581,
+         },
+       ],
+     },
+   },
+   "teams": {
+     "2300": {
+       "matches": [
+         "11::2300",
+       ],
+       "taskAverageMap": {
+         "CLMB_F": {
+           "count": 0,
+           "time": NaN,
+         },
+         "CLMB_S": {
+           "count": 0,
+           "time": NaN,
+         },
+         "C_": {
+           "count": 6,
+           "time": 578.3333333333334,
+         },
+         "C_CS": {
+           "count": 0,
+           "time": NaN,
+         },
+         "C_DP": {
+           "count": 0,
+           "time": NaN,
+         },
+         "C_R1": {
+           "count": 2,
+           "time": 513,
+         },
+         "C_R2": {
+           "count": 2,
+           "time": 445,
+         },
+         "C_R3": {
+           "count": 2,
+           "time": 467,
+         },
+         "H_": {
+           "count": 5,
+           "time": 638.8,
+         },
+         "H_CS": {
+           "count": 0,
+           "time": NaN,
+         },
+         "H_DP": {
+           "count": 0,
+           "time": NaN,
+         },
+         "H_R1": {
+           "count": 2,
+           "time": 789.5,
+         },
+         "H_R2": {
+           "count": 2,
+           "time": 581,
+         },
+         "H_R3": {
+           "count": 2,
+           "time": 481.5,
+         },
+       },
+     },
+   },
+ }

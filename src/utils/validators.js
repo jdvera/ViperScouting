@@ -1,4 +1,3 @@
-import _get from 'lodash/get';
 import _has from 'lodash/has';
 
 
@@ -72,7 +71,7 @@ function validateTimeline(rawResults) {
 function validatePostMatch(rawResults) {
     return validateHelper(rawResults, 'postMatch') &&
         validateHelper(rawResults, 'postMatch.pos') &&
-        validateHelper(rawResults, 'postMatch.hosting') &&
+        validateHelper(rawResults, 'postMatch.host') &&
         validateHelper(rawResults, 'postMatch.liftability') &&
         validateHelper(rawResults, 'postMatch.defense') &&
         validateHelper(rawResults, 'postMatch.broken')
@@ -83,9 +82,9 @@ export function validateRawResults(rawResults) {
     let valid = validateHelper(rawResults, 'matchNum') &&
                 validateHelper(rawResults, 'teamNum');
 
-    // valid = valid && validatePreMatch(rawResults);
+    valid = valid && validatePreMatch(rawResults);
     valid = valid && validateTimeline(rawResults);
-    // valid = valid && validatePostMatch(rawResults);
+    valid = valid && validatePostMatch(rawResults);
 
     return valid;
 }

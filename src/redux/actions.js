@@ -32,15 +32,15 @@ export function recalculateAverages(globalState, teamNum) {
 export function saveMatch(rawResult) {
     return (dispatch, getState) => {
         return Promise.resolve(
-            console.log(getState())
-        ).then(() =>
+        //     console.log(getState())
+        // ).then(() =>
             dispatch(saveRawMatchOffline(rawResult))
         ).then(() => {
             dispatch(addResults(rawResult.matchNum, rawResult.teamNum))
         }).then(() => {
             dispatch(recalculateAverages(getState(), rawResult.teamNum))
-        }).then(() => {
-            console.log(getState())
+        // }).then(() => {
+        //     console.log(getState())
         });
     }
 }

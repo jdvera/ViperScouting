@@ -12,176 +12,94 @@ const store = createStore(
     applyMiddleware(thunk)
 );
 
-// const testMatch = {
-//     'matchNum': 5,
-//     'teamNum': 6800,
-//     'preMatch': {
-//         'pos': 'lvl1',
-//         'piece': 'hatch',
-//         'config': '2/0'
-//     },
-//     'timeline': [
-//         { 'time': 0, 'eventType': 'H_' },
-//         { 'time': 8653, 'eventType': 'H_DP' },
-//         { 'time': 14653, 'eventType': 'H_R1' },
-//         { 'time': 18653, 'eventType': 'H_' },
-//         { 'time': 28653, 'eventType': 'H_R1' },
-//         { 'time': 35653, 'eventType': 'H_' },
-//         { 'time': 42653, 'eventType': 'H_' },
-//         { 'time': 56653, 'eventType': 'H_R2' },
-//         { 'time': 60653, 'eventType': 'H_' },
-//         { 'time': 69653, 'eventType': 'H_R2' },
-//         { 'time': 78653, 'eventType': 'H_' },
-//         { 'time': 85653, 'eventType': 'H_R3' },
-//         { 'time': 96653, 'eventType': 'H_' },
-//         { 'time': 106653, 'eventType': 'H_R3' },
-//         { 'time': 115653, 'eventType': 'C_' },
-//         { 'time': 121653, 'eventType': 'C_R1' },
-//         { 'time': 127653, 'eventType': 'C_' },
-//         { 'time': 133653, 'eventType': 'C_R1' },
-//         { 'time': 140653, 'eventType': 'C_' },
-//         { 'time': 142653, 'eventType': 'CLMB_S' },
-//         { 'time': 147653, 'eventType': 'CLMB_F' }
-//     ],
-//     'postGame': {
-//         'pos': 'lvl2',
-//         'host': 0,
-//         'liftability': 'good',
-//         'defense': 'meh',
-//         'broken': 'healthy'
-//     }
-// };
-
-const testMatch = {
-    "defense": 1,
-    "endLevel": 1,
-    "events": [
-        {
-            "time": 1364,
-            "type": "c_"
-        },
-
-        {
-            "time": 2246,
-            "type": "c_r2"
-        },
-
-        {
-            "time": 2899,
-            "type": "h_"
-        },
-
-        {
-            "time": 3188,
-            "type": "h_cs"
-        },
-
-        {
-            "time": 3564,
-            "type": "c_"
-        },
-
-        {
-            "time": 3768,
-            "type": "c_r3"
-        },
-
-        {
-            "time": 4068,
-            "type": "h_"
-        },
-
-        {
-            "time": 4315,
-            "type": "h_dp"
-        },
-
-        {
-            "time": 4641,
-            "type": "h_"
-        },
-
-        {
-            "time": 4879,
-            "type": "h_r2"
-        },
-
-        {
-            "time": 5131,
-            "type": "h_"
-        },
-
-        {
-            "time": 5363,
-            "type": "h_r3"
-        },
-
-        {
-            "time": 5616,
-            "type": "h_"
-        },
-
-        {
-            "time": 5849,
-            "type": "h_r2"
-        },
-
-        {
-            "time": 6072,
-            "type": "h_"
-        },
-
-        {
-            "time": 6305,
-            "type": "h_r3"
-        },
-
-        {
-            "time": 6642,
-            "type": "c_"
-        },
-
-        {
-            "time": 6866,
-            "type": "c_cs"
-        },
-
-        {
-            "time": 7108,
-            "type": "c_"
-        },
-
-        {
-            "time": 7349,
-            "type": "c_r2"
-        },
-
-        {
-            "time": 7674,
-            "type": "h_"
-        },
-
-        {
-            "time": 7914,
-            "type": "h_r3"
-        }
-    ],
-    "host": 2,
-    "liftability": 1,
-    "liftablitity": null,
-    "matchNum": "23",
-    "robotBreak": 2,
-    "role":  {
-        "cargoShipper": false,
-        "climber": false,
-        "rocketeer": true
+const testMatch1 = {
+    'matchNum': 5,
+    'teamNum': 6800,
+    'preMatch': {
+        'pos': 'lvl_1',
+        'piece': 'hatch',
+        'config': '2/0'
     },
-    "showPage": "postmatch",
-    "teamNum": "6800"
+    'timeline': [
+        { 'time': 0, 'eventType': 'H_' },
+        { 'time': 8000, 'eventType': 'H_DP' },
+        { 'time': 14000, 'eventType': 'H_R1' },
+        { 'time': 18000, 'eventType': 'H_' },
+        { 'time': 28000, 'eventType': 'H_R1' },
+        { 'time': 35000, 'eventType': 'H_' },
+        { 'time': 42000, 'eventType': 'H_' },
+        { 'time': 56000, 'eventType': 'H_R2' },
+        { 'time': 60000, 'eventType': 'H_' },
+        { 'time': 69000, 'eventType': 'H_R2' },
+        { 'time': 78000, 'eventType': 'H_' },
+        { 'time': 85000, 'eventType': 'H_R3' },
+        { 'time': 96000, 'eventType': 'H_' },
+        { 'time': 106000, 'eventType': 'H_R3' },
+        { 'time': 115000, 'eventType': 'C_' },
+        { 'time': 121000, 'eventType': 'C_R1' },
+        { 'time': 127000, 'eventType': 'C_' },
+        { 'time': 133000, 'eventType': 'C_R1' },
+        { 'time': 140000, 'eventType': 'C_' },
+        { 'time': 142000, 'eventType': 'CLMB_S' },
+        { 'time': 147000, 'eventType': 'CLMB_F' }
+    ],
+    'postMatch': {
+        'pos': 2,
+        'host': 0,
+        'liftability': 'good',
+        'defense': 'meh',
+        'broken': 'healthy'
+    }
 };
 
-store.dispatch(reduxActions.saveMatch(testMatch)).then(() => {
-    console.log(store.getState());
-    console.log(store.getState().results['5::6800']);
+const testMatch2 = {
+    'matchNum': 11,
+    'teamNum': 6800,
+    'preMatch': {
+        'pos': 'lvl_1',
+        'piece': 'hatch',
+        'config': '2/0'
+    },
+    'timeline': [
+        { 'time': 0, 'eventType': 'H_' },
+        { 'time': 8000, 'eventType': 'H_DP' },
+        { 'time': 13000, 'eventType': 'H_R1' },
+        { 'time': 19000, 'eventType': 'H_' },
+        { 'time': 22000, 'eventType': 'H_R1' },
+        { 'time': 30000, 'eventType': 'H_' },
+        { 'time': 40000, 'eventType': 'H_' },
+        { 'time': 50000, 'eventType': 'H_CS' },
+        { 'time': 65000, 'eventType': 'H_' },
+        { 'time': 69000, 'eventType': 'H_CS' },
+        { 'time': 72000, 'eventType': 'H_' },
+        { 'time': 82000, 'eventType': 'H_CS' },
+        { 'time': 99000, 'eventType': 'H_' },
+        { 'time': 101000, 'eventType': 'H_CS' },
+        { 'time': 111000, 'eventType': 'C_' },
+        { 'time': 128000, 'eventType': 'C_CS' },
+        { 'time': 129000, 'eventType': 'C_' },
+        { 'time': 130000, 'eventType': 'C_CS' },
+        { 'time': 143000, 'eventType': 'C_' },
+        { 'time': 144000, 'eventType': 'CLMB_S' },
+        { 'time': 147000, 'eventType': 'CLMB_F' }
+    ],
+    'postMatch': {
+        'pos': 3,
+        'host': 1,
+        'liftability': 'good',
+        'defense': 'meh',
+        'broken': 'healthy'
+    }
+};
+
+
+store.dispatch(reduxActions.saveMatch(testMatch1)).then(() => {
+    // console.log(store.getState().results['5::6800'].points);
+    // console.log(store.getState().teams['6800']);
+});
+
+store.dispatch(reduxActions.saveMatch(testMatch2)).then(() => {
+    // console.log("\n***Match 2***\n");
+    // console.log(store.getState().results['11::6800'].points);
     console.log(store.getState().teams['6800']);
 });

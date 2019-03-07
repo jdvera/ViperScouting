@@ -9,3 +9,9 @@ export function of(eventTypeAbbr) {
 }
 
 export const eventTypeAbbrList = Object.values(eventTypes).map((eventType) => eventType.abbr);
+
+export const rocketEventList = Object.values(eventTypes)
+                                         .filter((eventType) => eventType.category === "rocket");
+
+export const cargoShipEventList = Object.values(eventTypes)
+                                         .filter((eventType) => eventType.category === "cargoShip");
