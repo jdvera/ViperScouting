@@ -1,6 +1,6 @@
 import React from 'react';
 import { connect } from 'react-redux';
-import { StyleSheet, Text, View, Button, StatusBar, TouchableOpacity, TextInput, Switch } from 'react-native';
+import { StyleSheet, Text, View, Button, TextInput } from 'react-native';
 import * as reduxActions from "../redux/actions";
 
 class Sync extends React.Component {
@@ -19,20 +19,35 @@ class Sync extends React.Component {
             this.props.updateMainState({ showPage: "schedule" });
         });
     };
+    syncWithFirebase = () => {
+        console.log(`Syncing to firebase`);
+        this.props.syncToFirebase();
+    };
 
     render() {
         return (
             <View style={styles.container}>
                 <Text>Sync Page</Text>
                 <View style={styles.actionsContainer}>
-                    <Text>Event code: </Text>
+                    <View style={styles.actionsContainer}>
+                        <Text>Event code: </Text>
+                    </View>
                     <TextInput
                         style={styles.textInput}
                         onChangeText={this.onInputChange}
                         value={this.state.eventCodeInput}
                     />
-                    <Button title="Save" onPress={this.saveEventCode}/>
-                    <Button title="Sync with TBA" onPress={this.getEventInfo}/>
+                    <View style={{ paddingRight: 10 }}>
+                        <Button title="Save" onPress={this.saveEventCode}/>
+                    </View>
+                    <View style={{ paddingRight: 10 }}>
+                        <Button title="Sync with TBA" onPress={this.getEventInfo}/>
+                    </View>
+                </View>
+                <View style={styles.actionsContainer}>
+                    <View style={{ paddingRight: 10 }}>
+                        <Button title="Sync with Firebase" onPress={this.syncWithFirebase}/>
+                    </View>
                 </View>
             </View>
         );
@@ -46,15 +61,16 @@ const styles = StyleSheet.create({
         justifyContent: 'space-around'
     },
     actionsContainer: {
-        flex: 1,
+        // flex: 1,
         flexDirection: "row",
-        height: 100
+        // height: 100
     },
     textInput: {
         height: 40,
         width: 100,
         borderColor: 'gray',
-        borderWidth: 1
+        borderWidth: 1,
+        marginHorizontal: 20
     }
 });
 
@@ -67,7 +83,8 @@ const mapStateToProps = state => {
 const mapDispatchToProps = dispatch => {
     return {
         setEventCode: (eventCode) => dispatch(reduxActions.setEventCode(eventCode)),
-        updateMatches: () => dispatch(reduxActions.updateMatches())
+        updateMatches: () => dispatch(reduxActions.updateMatches()),
+        syncToFirebase: () => dispatch(reduxActions.syncToFirebase()),
     }
 };
 

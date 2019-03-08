@@ -6,9 +6,9 @@ import ActionButton from "./ActionButton.js";
 
 class PreGame extends React.Component {
     state = {
-        piece: "",
-        pos: "",
-        config: ""
+        piece: null,
+        pos: null,
+        config: null
     };
 
     handleInputChange = (name, value) => {
@@ -35,7 +35,7 @@ class PreGame extends React.Component {
                 <View style={styles.actionsContainer}>
                     <View style={styles.buttonWrapper}>
                         <ActionButton
-                            action="hatch"
+                            action={0}
                             type="piece"
                             value={this.state.piece}
                             page="prematch"
@@ -45,7 +45,7 @@ class PreGame extends React.Component {
                             <Text>Hatch</Text>
                         </ActionButton>
                         <ActionButton
-                            action="cargo"
+                            action={1}
                             type="piece"
                             value={this.state.piece}
                             page="prematch"
@@ -60,7 +60,7 @@ class PreGame extends React.Component {
 
                     <View style={styles.buttonWrapper}>
                         <ActionButton
-                            action="cs_c"
+                            action={0}
                             type="config"
                             value={this.state.config}
                             page="prematch"
@@ -70,7 +70,7 @@ class PreGame extends React.Component {
                             <Text>Two Cargo</Text>
                         </ActionButton>
                         <ActionButton
-                            action="lvl_1"
+                            action={0}
                             type="pos"
                             value={this.state.pos}
                             page="prematch"
@@ -81,7 +81,7 @@ class PreGame extends React.Component {
                     </View>
                     <View style={styles.buttonWrapper}>
                         <ActionButton
-                            action="cs_1-1"
+                            action={1}
                             type="config"
                             value={this.state.config}
                             page="prematch"
@@ -91,7 +91,7 @@ class PreGame extends React.Component {
                             <Text>One Cargo | One Hatch</Text>
                         </ActionButton>
                         <ActionButton
-                            action="lvl_2"
+                            action={1}
                             type="pos"
                             value={this.state.pos}
                             page="prematch"
@@ -102,7 +102,7 @@ class PreGame extends React.Component {
                     </View>
                     <View style={styles.buttonWrapper}>
                         <ActionButton
-                            action="cs_h"
+                            action={2}
                             type="config"
                             value={this.state.config}
                             page="prematch"
@@ -114,9 +114,6 @@ class PreGame extends React.Component {
                         <View style={styles.status} />
                     </View>
                 </View>
-                {/* <TouchableOpacity style={styles.startButton} onPress={this.startGame}>
-                    <Text>Start Game</Text>
-                </TouchableOpacity> */}
                 <Button title="Start Game" onPress={this.startGame} disabled={!this.canSubmit()}/>
             </View>
         );

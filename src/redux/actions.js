@@ -1,5 +1,6 @@
 import { getMatches } from "../tba/tba.js";
 import {findCurrentTeam} from "./selectors";
+import firebase from "../firebase/firebase";
 
 // -------------------------
 // -- RAW RESULTS ACTIONS --
@@ -122,4 +123,15 @@ export function saveMatch(postMatch) {
             dispatch(gotoNextMatch())
         });
     };
+}
+
+export function syncToFirebase() {
+    return (dispatch, getState) => {
+        const state = getState();
+        Object.keys(state.results).forEach((matchId) => {
+            const matchesRef = firebase.database().ref(`matches/${matchId}`);
+            const {matchNum, teamNum, preMatch, timeline, postMatch} = state.results[matchId];
+            matchesRef.set({matchNum, teamNum, preMatch, timeline, postMatch})
+        })
+    }
 }
