@@ -9,7 +9,7 @@
       "android"
     ],
     "version": "1.0.5",
-    "orientation": "landscape",
+    "orientation": "default",
     "icon": "./assets/icon.png",
     "splash": {
       "image": "./assets/splash.png",

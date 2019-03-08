@@ -8,44 +8,15 @@ import Scouting from "./components/Scouting.js";
 import PostMatch from "./components/PostMatch.js";
 import Teams from "./components/Teams.js";
 import Sync from "./components/Sync.js";
-import NavButton from "./components/NavButton.js";
-
+import _get from 'lodash/get';
+import NavBar from "./components/NavBar";
 
 class Main extends React.Component {
     state = {
-        showPage: "schedule",
+        showPage: "sync",
 
         //Schedule
-        teamArr: [
-            [6800, "0001", 2300, 3400, 5600, 6700],
-            [6800, "0002", 2300, 3400, 5600, 6700],
-            [6800, "0003", 2300, 3400, 5600, 6700],
-            [6800, "0004", 2300, 3400, 5600, 6700],
-            [6800, "0005", 2300, 3400, 5600, 6700],
-            [6800, "0006", 2300, 3400, 5600, 6700],
-            [6800, "0007", 2300, 3400, 5600, 6700],
-            [6800, "0008", 2300, 3400, 5600, 6700],
-            [6800, "0009", 2300, 3400, 5600, 6700],
-            [6800, "0010", 2300, 3400, 5600, 6700],
-            [6800, "0011", 2300, 3400, 5600, 6700],
-            [6800, "0012", 2300, 3400, 5600, 6700],
-            [6800, "0013", 2300, 3400, 5600, 6700],
-            [6800, "0014", 2300, 3400, 5600, 6700],
-            [6800, "0015", 2300, 3400, 5600, 6700],
-            [6800, "0016", 2300, 3400, 5600, 6700],
-            [6800, "0017", 2300, 3400, 5600, 6700],
-            [6800, "0018", 2300, 3400, 5600, 6700],
-            [6800, "0019", 2300, 3400, 5600, 6700],
-            [6800, "0020", 2300, 3400, 5600, 6700],
-            [6800, "0021", 2300, 3400, 5600, 6700],
-            [6800, "0022", 2300, 3400, 5600, 6700],
-            [6800, "0023", 2300, 3400, 5600, 6700],
-            [6800, "0024", 2300, 3400, 5600, 6700],
-            [6800, "0025", 2300, 3400, 5600, 6700],
-            [6800, "0026", 2300, 3400, 5600, 6700],
-            [6800, "0027", 2300, 3400, 5600, 6700],
-            [6800, "0028", 2300, 3400, 5600, 6700]
-        ],
+        teamArr: this.props.matchSchedule,
         i: 0,
         j: 0,
 
@@ -69,11 +40,6 @@ class Main extends React.Component {
         }
     };
 
-    currTeamNum = () => {
-        let { showPage, teamArr, i, j } = this.state;
-        return teamArr[i][j];
-    };
-
     updateMainState = (stateObj) => {
         this.setState(stateObj/*,
             () => console.log(stateObj)*/
@@ -89,18 +55,11 @@ class Main extends React.Component {
         this.props.saveMatch(rawResult);
     };
 
-    showTeamInfo = () => {
-        let { showPage, teamArr, i, j } = this.state;
-        if (showPage === "prematch" || showPage === "scouting" || showPage === "postmatch") {
-            return <Text>Match: {i + 1} | Team: {this.currTeamNum()}</Text>
-        }
-    };
-
     pageToDisplay = () => {
-        let { i, j, teamArr } = this.state;
+        let { i } = this.state;
         switch (this.state.showPage) {
             case "schedule":
-                return <Schedule updateMainState={this.updateMainState} teamArr={teamArr} i={i} j={j} />;
+                return <Schedule updateMainState={this.updateMainState} />;
             case "prematch":
                 return <PreMatch updateMainState={this.updateMainState} />;
             case "scouting":
@@ -108,7 +67,7 @@ class Main extends React.Component {
             case "postmatch":
                 return <PostMatch updateMainState={this.updateMainState} currentMatch={this.state.match} i={i} saveMatch={this.saveMatch}/>;
             case "teams":
-                return <Teams updateMainState={this.updateMainState} teamArr={teamArr} i={i} j={j} />;
+                return <Teams updateMainState={this.updateMainState} />;
             case "sync":
                 return <Sync updateMainState={this.updateMainState} />;
         }
@@ -118,32 +77,12 @@ class Main extends React.Component {
         return (
             <View style={styles.container}>
                 <StatusBar hidden={true} />
-                <View style={styles.navMain}>
-                    <Text>Viper Scouting</Text>
-                    {this.showTeamInfo()}
-                    <View style={styles.row}>
-
-                        <NavButton showPage={this.state.showPage} name="schedule" updateMainState={this.updateMainState}>
-                            Schedule
-                        </NavButton>
-                        <NavButton showPage={this.state.showPage} name="prematch" updateMainState={this.updateMainState}>
-                            Pre-Match
-                        </NavButton>
-                        <NavButton showPage={this.state.showPage} name="scouting" updateMainState={this.updateMainState}>
-                            Scouting
-                        </NavButton>
-                        <NavButton showPage={this.state.showPage} name="postmatch" updateMainState={this.updateMainState}>
-                            Post Match
-                        </NavButton>
-                        <NavButton showPage={this.state.showPage} name="teams" updateMainState={this.updateMainState}>
-                            Teams
-                        </NavButton>
-                        <NavButton showPage={this.state.showPage} name="sync" updateMainState={this.updateMainState}>
-                            Sync
-                        </NavButton>
-
-                    </View>
-                </View>
+                <NavBar
+                    currentPage={this.state.showPage}
+                    updateMainState={this.updateMainState}
+                    currentMatch={this.state.currentMatch}
+                    currentTeam={this.state.currentTeam}
+                />
                 {this.pageToDisplay()}
             </View>
         );
@@ -161,20 +100,19 @@ const styles = StyleSheet.create({
     },
 
     // Nav
-    navMain: {
-        flex: 1,
-        flexDirection: "row",
-        justifyContent: "space-around",
-        alignItems: 'center',
-        backgroundColor: "lightgray",
-        maxHeight: 30
-    },
     navButtons: {
         marginRight: 10
     }
 });
 
-const mapStoreToProps = store => {return {} };
+const mapStateToProps = state => {
+    console.log("reloading index props from store");
+    return {
+        matches: state.schedule.matches,
+        matchesLoaded: state.schedule.matchesLoaded,
+
+    }
+};
 
 const mapDispatchToProps = dispatch => {
     return {
@@ -182,4 +120,4 @@ const mapDispatchToProps = dispatch => {
     }
 };
 
-export default connect(mapStoreToProps, mapDispatchToProps)(Main);
+export default connect(mapStateToProps, mapDispatchToProps)(Main);

@@ -1,7 +1,8 @@
 import React from 'react';
 import { connect } from 'react-redux';
-import * as reduxActions from "../redux/actions.js";
 import { StyleSheet, Text, View, Button, StatusBar, TouchableOpacity, TextInput, Switch } from 'react-native';
+import * as reduxActions from "../redux/actions";
+import {findNextTeam} from "../redux/selectors";
 
 class PostGame extends React.Component {
     state = {
@@ -17,18 +18,20 @@ class PostGame extends React.Component {
         this.setState({ [name]: value });
     };
 
-    handleRoleChange = (name) => {
-        const { role } = this.state;
-        role[name] = !role[name];
-        this.setState({ role });
-    };
+    canSubmit = () => {
+        return this.state.broken !== null &&
+            this.state.pos !== null &&
+            this.state.host !== null &&
+            this.state.liftability !== null &&
+            this.state.defense !== null
+    }
 
     submitGameData = () => {
-        let { i } = this.props;
-        i++;
-        Promise.resolve(
-            this.props.updateMainState({ postMatch: this.state, i, showPage: "prematch" })
-        ).then(() => this.props.saveMatch());
+        this.props.savePostMatch(
+            this.state,
+            this.props.nextMatch,
+            this.props.nextTeam
+        );
     };
 
     render() {
@@ -204,7 +207,7 @@ class PostGame extends React.Component {
                     </View>
                 </View>
 
-                <Button title="submit game data" onPress={this.submitGameData} />
+                <Button title="submit game data" onPress={this.submitGameData} disabled={!this.canSubmit()}/>
             </View>
         );
     };
@@ -295,8 +298,21 @@ const styles = StyleSheet.create({
     }
 });
 
-const mapStoreToProps = store => {
-    return { ...store };
+const mapStateToProps = state => {
+    return {
+        nextMatch: state.scouting.currentMatch,
+        nextTeam: findNextTeam(state),
+    };
 };
 
-export default connect(mapStoreToProps)(PostGame);
+const mapDispatchToProps = (dispatch, ownProps) => {
+    return {
+        savePostMatch: (postMatch, nextMatch, nextTeam) => Promise.resolve(
+                dispatch(reduxActions.saveMatch(postMatch))
+            ).then(() => {
+                ownProps.updateMainState({ showPage: "prematch", currentMatch: nextMatch, currentTeam: nextTeam })
+            })
+    }
+};
+
+export default connect(mapStateToProps, mapDispatchToProps)(PostGame);

@@ -144,9 +144,7 @@ class Scouting extends React.Component {
         const timeline = this.state.events.map(
             (event) => {return { eventType: event.type.toUpperCase(), time: event.time };}
         );
-
-        const stateObj = { timeline, showPage: "postmatch" };
-        this.props.updateMainState(stateObj);
+        this.props.savePreMatch(timeline);
     };
 
     displayGameState = () => {
@@ -342,8 +340,18 @@ const styles = StyleSheet.create({
     }
 });
 
-const mapStoreToProps = store => {
-    return { ...store };
+const mapStateToProps = state => {
+    return {  };
 };
 
-export default connect(mapStoreToProps)(Scouting);
+const mapDispatchToProps = (dispatch, ownProps) => {
+    return {
+        savePreMatch: (timeline) => Promise.resolve(
+            dispatch(reduxActions.setTimeline({timeline}))
+        ).then(() => {
+            ownProps.updateMainState({ showPage: "postmatch" })
+        })
+    }
+};
+
+export default connect(mapStateToProps, mapDispatchToProps)(Scouting);

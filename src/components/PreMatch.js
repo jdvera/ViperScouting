@@ -19,8 +19,14 @@ class PreGame extends React.Component {
         this.setState({ [type]: action });
     };
 
+    canSubmit = () => {
+        return this.state.piece !== null &&
+            this.state.pos !== null &&
+            this.state.config !== null
+    };
+
     startGame = () => {
-        this.props.updateMainState({ preMatch: this.state, showPage: "scouting" });
+        this.props.savePreMatch(this.state);
     };
 
     render() {
@@ -111,7 +117,7 @@ class PreGame extends React.Component {
                 {/* <TouchableOpacity style={styles.startButton} onPress={this.startGame}>
                     <Text>Start Game</Text>
                 </TouchableOpacity> */}
-                <Button title="Start Game" onPress={this.startGame} />
+                <Button title="Start Game" onPress={this.startGame} disabled={!this.canSubmit()}/>
             </View>
         );
     };
@@ -123,7 +129,7 @@ const styles = StyleSheet.create({
         flex: 1,
         alignItems: 'center',
         justifyContent: 'space-around',
-        alignItems: "stretch"
+        // alignItems: "stretch"
     },
     actionsContainer: {
         flex: 1,
@@ -196,8 +202,18 @@ const styles = StyleSheet.create({
     }
 });
 
-const mapStoreToProps = store => {
-    return { ...store };
+const mapStateToProps = state => {
+    return { };
 };
 
-export default connect(mapStoreToProps)(PreGame);
+const mapDispatchToProps = (dispatch, ownProps) => {
+    return {
+        savePreMatch: (pregame) => Promise.resolve(
+                dispatch(reduxActions.setPreGame(pregame))
+            ).then(() => {
+                ownProps.updateMainState({ showPage: "scouting" })
+            })
+    }
+};
+
+export default connect(mapStateToProps, mapDispatchToProps)(PreGame);

@@ -93,7 +93,7 @@ const testMatch2 = {
 };
 
 
-store.dispatch(reduxActions.saveMatch(testMatch1)).then(() => {
+store.dispatch(reduxActions.setEventCode(testMatch1)).then(() => {
     // console.log(store.getState().results['5::6800'].points);
     // console.log(store.getState().teams['6800']);
 });

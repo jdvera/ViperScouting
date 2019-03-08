@@ -4,7 +4,7 @@ import { StyleSheet, Text, View, Button, StatusBar, TouchableOpacity, TextInput,
 class NavButton extends React.Component {
 
     render() {
-        const { showPage, name, children } = this.props;
+        const { currentPage, name, children, updateMainState } = this.props;
 
         let buttonDisable = {
             disabled: false
@@ -13,19 +13,15 @@ class NavButton extends React.Component {
             color: "black"
         };
 
-        // if (showPage === "scouting" || showPage === "postmatch") {
-        //     buttonDisable.disabled = true;
-        // }
-
-        if (name === showPage) {
+        if (name === currentPage) {
             textStyle.color = "blue";
         }
 
 
         return (
-            <TouchableOpacity style={styles.navButton} onPress={() => this.props.updateMainState({ showPage: name })} {...buttonDisable}>
+            <TouchableOpacity style={styles.navButton} onPress={() => updateMainState({ showPage: name })} {...buttonDisable}>
                 <Text style={{ ...textStyle }}>
-                    {children}
+                    {this.props.label}
                 </Text>
             </TouchableOpacity>
         );

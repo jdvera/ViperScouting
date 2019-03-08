@@ -1,45 +1,11 @@
 import React from 'react';
 import { connect } from 'react-redux';
-// import * as reduxActions from "../redux/actions.js";
 import { StyleSheet, Text, View, Button, StatusBar, TouchableOpacity, TextInput, Switch, ScrollView, Dimensions } from 'react-native';
+import ScheduleRow from "./scheduleRow";
+import {findCurrentTeam} from "../redux/selectors";
 
 class Schedule extends React.Component {
-    generateTable = () => {
-        const tableRows = [];
-        this.props.teamArr.forEach((value, i) => {
-            const blueTeam = [];
-            const redTeam = [];
-            value.forEach((teamValue, j) => {
-                let arr = blueTeam;
-                if (j > 2) arr = redTeam;
-                arr.push(
-                    <View style={[styles.leftBorder, styles.tableColumn]} key={j}>
-                        <TouchableOpacity
-                            style={{ backgroundColor: this.props.i === i && this.props.j === j ? "limegreen" : "azure" }}
-                            onPress={() => this.props.updateMainState({ i, j })}
-                            disabled={this.props.i === i && this.props.j === j}
-                        >
-                            <Text style={styles.tableText}>{teamValue}</Text>
-                        </TouchableOpacity>
-                    </View>
-                );
-            });
-            tableRows.push(
-                <View style={styles.tableRow} key={i}>
-                    {blueTeam}
-                    <View style={[styles.tableColumn, styles.center, styles.leftBorder]}>
-                        <Text>{i + 1}</Text>
-                    </View>
-                    {redTeam}
-                </View>
-            );
-        });
-
-        return tableRows;
-    };
-
     render() {
-        const { teamArr, i, j } = this.props;
         return (
             <View style={styles.container}>
                 <View style={styles.tableWrapper}>
@@ -59,17 +25,19 @@ class Schedule extends React.Component {
                         <View style={[styles.tableHeader, styles.redBackground]} />
                     </View>
                     <ScrollView>
-                        {this.generateTable()}
+                        {this.props.matches.map((match, matchIndex) => (
+                            <ScheduleRow match={match} key={matchIndex} updateMainState={this.props.updateMainState}/>
+                        ))}
                     </ScrollView>
                 </View>
                 <View style={styles.row}>
-                    <Button title={`Scout ${teamArr[i][j]}`} onPress={() => this.props.updateMainState({ showPage: "prematch" })} />
-                    <Button title={`View ${teamArr[i][j]} Details`} onPress={() => this.props.updateMainState({ showPage: "teams" })} />
+                    <Button title={`Scout ${this.props.currentTeamNum}`} onPress={() => this.props.updateMainState({ showPage: "prematch" })} />
+                    <Button title={`View ${this.props.currentTeamNum} Details`} onPress={() => this.props.updateMainState({ showPage: "teams" })} />
                 </View>
             </View>
         );
     };
-};
+}
 
 const styles = StyleSheet.create({
     container: {
@@ -126,8 +94,13 @@ const styles = StyleSheet.create({
 });
 
 
-const mapStoreToProps = store => {
-    return { ...store };
+const mapStateToProps = state => {
+    console.log("reloading schedule props from store");
+    return {
+        matches: state.schedule.matches,
+        matchesLoaded: state.schedule.matchesLoaded,
+        currentTeamNum: findCurrentTeam(state)
+    };
 };
 
-export default connect(mapStoreToProps)(Schedule);
+export default connect(mapStateToProps)(Schedule);

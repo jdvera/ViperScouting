@@ -48,7 +48,7 @@ import _has from 'lodash/has';
  *
  */
 
-function validateHelper(obj, path) {
+export function validatePayload(obj, path) {
     if (!_has(obj, path)) {
         console.warn(`Improperly formatted payload: missing '${path}'`)
         return false;
@@ -57,30 +57,30 @@ function validateHelper(obj, path) {
 }
 
 function validatePreMatch(rawResults) {
-    return validateHelper(rawResults, 'preMatch') &&
-        validateHelper(rawResults, 'preMatch.pos') &&
-        validateHelper(rawResults, 'preMatch.piece') &&
-        validateHelper(rawResults, 'preMatch.config');
+    return validatePayload(rawResults, 'preMatch') &&
+        validatePayload(rawResults, 'preMatch.pos') &&
+        validatePayload(rawResults, 'preMatch.piece') &&
+        validatePayload(rawResults, 'preMatch.config');
 }
 
 function validateTimeline(rawResults) {
-    return validateHelper(rawResults, 'timeline') &&
-        rawResults.timeline.every((event) => validateHelper(event, 'eventType') && validateHelper(event, 'time'));
+    return validatePayload(rawResults, 'timeline') &&
+        rawResults.timeline.every((event) => validatePayload(event, 'eventType') && validatePayload(event, 'time'));
 }
 
 function validatePostMatch(rawResults) {
-    return validateHelper(rawResults, 'postMatch') &&
-        validateHelper(rawResults, 'postMatch.pos') &&
-        validateHelper(rawResults, 'postMatch.host') &&
-        validateHelper(rawResults, 'postMatch.liftability') &&
-        validateHelper(rawResults, 'postMatch.defense') &&
-        validateHelper(rawResults, 'postMatch.broken')
+    return validatePayload(rawResults, 'postMatch') &&
+        validatePayload(rawResults, 'postMatch.pos') &&
+        validatePayload(rawResults, 'postMatch.host') &&
+        validatePayload(rawResults, 'postMatch.liftability') &&
+        validatePayload(rawResults, 'postMatch.defense') &&
+        validatePayload(rawResults, 'postMatch.broken')
 }
 
 
 export function validateRawResults(rawResults) {
-    let valid = validateHelper(rawResults, 'matchNum') &&
-                validateHelper(rawResults, 'teamNum');
+    let valid = validatePayload(rawResults, 'matchNum') &&
+                validatePayload(rawResults, 'teamNum');
 
     valid = valid && validatePreMatch(rawResults);
     valid = valid && validateTimeline(rawResults);

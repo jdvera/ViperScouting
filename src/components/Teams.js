@@ -1,17 +1,13 @@
 import React from 'react';
 import { connect } from 'react-redux';
-// import * as reduxActions from "../redux/actions.js";
-import NavBar, { NavButton, NavButtonText, NavTitle } from 'react-native-nav';
-import { StyleSheet, Text, View, Button, StatusBar, TouchableOpacity, TextInput, Switch } from 'react-native';
-// import ActionButton from "./ActionButton.js";
-// import AnimatedBar from "./AnimatedBar.js";
+import { StyleSheet, Text, View } from 'react-native';
+import {findCurrentTeam} from "../redux/selectors";
 
 class Teams extends React.Component {
     render() {
-        const { teamArr, i, j } = this.props;
         return (
             <View style={styles.container}>
-                <Text>Team {teamArr[i][j]} Page</Text>
+                <Text>Team {this.props.teamNum} Page</Text>
             </View>
         );
     };
@@ -26,8 +22,12 @@ const styles = StyleSheet.create({
 });
 
 
-const mapStoreToProps = store => {
-    return { ...store };
+
+const mapStateToProps = state => {
+    console.log("reloading Teams props from store");
+    return {
+        teamNum: findCurrentTeam(state),
+    }
 };
 
-export default connect(mapStoreToProps)(Teams);
+export default connect(mapStateToProps)(Teams);
