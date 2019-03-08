@@ -33,14 +33,16 @@ export function generateProcessedTasks(rawResult) {
 }
 
 export function calculatePoints(result) {
-    const preMatchpts = preMatchOptions.position.options.find(
-        (option) => option.text === _get(result, `preMatch.${preMatchOptions.position.label}`)
-    ).points;
+    const preMatchpts = _get(preMatchOptions, `position.options${_get(result, `preMatch.pos`, -1)}.points`, 0);
+
+    //     preMatchOptions.position.options.find(
+    //     (option) => option.text === _get(result, `preMatch.${preMatchOptions.position.label}`)
+    // ).points;
 
     const rocketPts = _sum(rocketEventList.map((event) => _get(result, `taskMap.${event.abbr}`).length * event.points));
     const cargoShipPts = _sum(cargoShipEventList.map((event) => _get(result, `taskMap.${event.abbr}`).length * event.points));
 
-    const climbPts = postMatchOptions.position.options[_get(result, `postMatch.${postMatchOptions.position.name}`)].points *
+    const climbPts = _get(postMatchOptions, `position.options${_get(result, `postMatch.pos`, -1)}.points`, 0) *
         (_get(result, `postMatch.${postMatchOptions.buddyClimbs.name}`) + 1);
 
     return { rocketPts, cargoShipPts, habPts: _sum([climbPts, preMatchpts]), totalPts: _sum([preMatchpts, rocketPts, cargoShipPts, climbPts]) };
