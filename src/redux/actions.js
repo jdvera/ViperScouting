@@ -128,10 +128,11 @@ export function saveMatch(postMatch) {
 export function syncToFirebase() {
     return (dispatch, getState) => {
         const state = getState();
-        Object.keys(state.results).forEach((matchId) => {
-            const matchesRef = firebase.database().ref(`matches/${matchId}`);
-            const {matchNum, teamNum, preMatch, timeline, postMatch} = state.results[matchId];
-            matchesRef.set({matchNum, teamNum, preMatch, timeline, postMatch})
-        })
+        const matchesRef = firebase.database().ref(`matches`);
+        // const matchesRef = firebase.database().ref(`matches/${matchId}`);
+        // Object.keys(state.results).forEach((matchId) => {
+        //     const {matchNum, teamNum, preMatch, timeline, postMatch} = state.results[matchId];
+        //     matchesRef.set({matchNum, teamNum, preMatch, timeline, postMatch})
+        // })
     }
 }
