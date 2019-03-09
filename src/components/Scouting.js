@@ -28,6 +28,7 @@ class Scouting extends React.Component {
 
     componentDidMount() {
         this.startTimer();
+        this.handleButtonPress("pickup", this.props.firstPiece === 0 ? "h_" : "c_")
     };
 
     componentWillUnmount() {
@@ -341,7 +342,9 @@ const styles = StyleSheet.create({
 });
 
 const mapStateToProps = state => {
-    return {  };
+    return {
+        firstPiece: state.scouting.preMatch.piece,
+    };
 };
 
 const mapDispatchToProps = (dispatch, ownProps) => {
