@@ -9,9 +9,7 @@ class ScheduleTeamCell extends React.Component {
     render() {
         const { matchNumber, alliance, position} = this.props;
         return (
-            <View
-                style={[styles.leftBorder, styles.tableColumn]}
-            >
+            <View style={[styles.leftBorder, styles.tableColumn]}>
                 <TouchableOpacity
                     style={{ backgroundColor: this.props.isSelected ? "limegreen" : "azure" }}
                     onPress={() => this.props.setScoutingInfo(matchNumber, alliance, position)}

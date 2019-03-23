@@ -308,7 +308,7 @@ const mapStateToProps = state => {
 const mapDispatchToProps = (dispatch, ownProps) => {
     return {
         savePostMatch: (postMatch, nextMatch, nextTeam) => Promise.resolve(
-                dispatch(reduxActions.saveMatch(postMatch))
+                dispatch(reduxActions.processMatch(postMatch))
             ).then(() => {
                 ownProps.updateMainState({ showPage: "prematch", currentMatch: nextMatch, currentTeam: nextTeam })
             })

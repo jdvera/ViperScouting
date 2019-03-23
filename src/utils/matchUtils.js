@@ -4,7 +4,7 @@ import _sum from 'lodash/sum';
 import * as eventTypes from '../constants/EventTypes';
 import * as preMatchOptions from '../constants/preMatchOptions';
 import * as postMatchOptions from '../constants/postMatchOptions';
-import {cargoShipEventList, rocketEventList} from "./eventTypeUtils";
+import {cargoShipEventList, rocketCargoEventList, rocketHatchEventList} from "./eventTypeUtils";
 
 
 
@@ -33,17 +33,26 @@ export function generateProcessedTasks(rawResult) {
 }
 
 export function calculatePoints(result) {
-    const preMatchpts = _get(preMatchOptions, `position.options${_get(result, `preMatch.pos`, -1)}.points`, 0);
+    const preMatchpts = _get(preMatchOptions, `position.options.${_get(result, `preMatch.pos`, -1)}.points`, 0);
 
     //     preMatchOptions.position.options.find(
     //     (option) => option.text === _get(result, `preMatch.${preMatchOptions.position.label}`)
     // ).points;
 
-    const rocketPts = _sum(rocketEventList.map((event) => _get(result, `taskMap.${event.abbr}`).length * event.points));
+    const rocketCargoPts = _sum(rocketCargoEventList.map((event) => _get(result, `taskMap.${event.abbr}`).length * event.points));
+    const rocketHatchPts = _sum(rocketHatchEventList.map((event) => _get(result, `taskMap.${event.abbr}`).length * event.points));
     const cargoShipPts = _sum(cargoShipEventList.map((event) => _get(result, `taskMap.${event.abbr}`).length * event.points));
 
-    const climbPts = _get(postMatchOptions, `position.options${_get(result, `postMatch.pos`, -1)}.points`, 0) *
+    const climbPts = _get(postMatchOptions, `position.options.${_get(result, `postMatch.pos`, -1)}.points`, 0) *
         (_get(result, `postMatch.${postMatchOptions.buddyClimbs.name}`) + 1);
 
-    return { rocketPts, cargoShipPts, habPts: _sum([climbPts, preMatchpts]), totalPts: _sum([preMatchpts, rocketPts, cargoShipPts, climbPts]) };
+    console.log(`Calculating score for ${_get(result, `teamNum`)}: preMatchpts: ${preMatchpts} climbPts: ${climbPts}`);
+
+    return {
+        rocketPts: _sum([rocketCargoPts, rocketHatchPts]),
+        rocketCargoPts,
+        rocketHatchPts,
+        cargoShipPts,
+        habPts: _sum([climbPts, preMatchpts]),
+        totalPts: _sum([preMatchpts, rocketCargoPts, rocketHatchPts, cargoShipPts, climbPts]) };
 }

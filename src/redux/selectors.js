@@ -1,4 +1,6 @@
 import _get from 'lodash/get';
+import _sortBy from 'lodash/sortBy';
+
 
 export const findTeamNum = (state, props) => {
     return _get(state, `schedule.matches.${props.matchNumber}.${props.alliance}.${props.position}`, "");
@@ -27,4 +29,8 @@ export const findNextTeam = (state) => {
     const teamNum = findTeamNum(state, { matchNumber: currentMatch, alliance, position});
     // return findTeam(state, { teamNum });
     return teamNum;
+};
+
+export const getTeamOrder = (state, props) => {
+    return _sortBy(state.teams, (team) => _get(team, `${props.field}`))
 };

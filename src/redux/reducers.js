@@ -92,12 +92,12 @@ const resultsReducer = (state = {}, action) => {
      }
  */
 const teamReducer = (state = {}, action) => {
-    const teamNum = _get(action, "payload.teamNum", 0);
+    const teamNum = Number.parseInt(_get(action, "payload.teamNum", 0));
 
     switch (action.type) {
         case 'ADD_RESULT':
             const matchIds = [..._get(state, `${teamNum}.matches`, []), matchId(action.payload)];
-            return assignNestedState(state,  teamNum, { matches: matchIds });
+            return assignNestedState(state,  teamNum, { matches: matchIds, teamNum: teamNum});
 
         case 'CALCULATE_AVERAGES':
             const matches = findTeamMatches(action.globalState, { teamNum: action.payload.teamNum });
@@ -121,10 +121,12 @@ const teamReducer = (state = {}, action) => {
 
             const avgPts = _meanBy(matches, `points.totalPts`);
             const avgRocketPts = _meanBy(matches, `points.rocketPts`);
+            const avgRocketCargoPts = _meanBy(matches, `points.rocketCargoPts`);
+            const avgRocketHatchPts = _meanBy(matches, `points.rocketHatchPts`);
             const avgCargoShipPts = _meanBy(matches, `points.cargoShipPts`);
             const avgHabPts = _meanBy(matches, `points.habPts`);
 
-            return assignNestedState(state, teamNum, { taskAverageMap, avgPts, avgRocketPts, avgCargoShipPts, avgHabPts });
+            return assignNestedState(state, teamNum, { taskAverageMap, avgPts, avgRocketPts, avgRocketCargoPts, avgRocketHatchPts, avgCargoShipPts, avgHabPts });
 
         default:
             return state;

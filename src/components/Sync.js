@@ -21,7 +21,9 @@ class Sync extends React.Component {
     };
     syncWithFirebase = () => {
         console.log(`Syncing to firebase`);
-        this.props.syncToFirebase();
+        this.props.syncToFirebase().then(() => {
+            this.props.updateMainState({ showPage: "teams" });
+        });
     };
 
     render() {

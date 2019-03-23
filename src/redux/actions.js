@@ -102,7 +102,7 @@ export function updateScoutingInfo(currentMatch, alliance, position) {
 // --- COMBINED ACTIONS ----
 // -------------------------
 
-export function saveMatch(postMatch) {
+export function processMatch(postMatch) {
     return (dispatch, getState) => {
         const rawResult = {
             matchNum: getState().scouting.currentMatch,
@@ -112,27 +112,60 @@ export function saveMatch(postMatch) {
             postMatch};
 
         return Promise.resolve(
-        //     console.log(getState())
-        // ).then(() =>
-            dispatch(saveRawMatchOffline(rawResult))
+            dispatch(saveMatch(rawResult))
         ).then(() => {
-            dispatch(addResults(rawResult.matchNum, rawResult.teamNum))
-        }).then(() => {
-            dispatch(recalculateAverages(getState(), rawResult.teamNum))
-        }).then(() => {
             dispatch(gotoNextMatch())
         });
     };
 }
 
+function saveMatch(rawResult) {
+    return (dispatch, getState) => {
+        return Promise.resolve(
+            dispatch(saveRawMatchOffline(rawResult))
+        ).then(() => {
+        //     console.log(getState())
+        // }).then(() => {
+            return dispatch(addResults(rawResult.matchNum, rawResult.teamNum))
+        }).then(() => {
+            return dispatch(recalculateAverages(getState(), rawResult.teamNum))
+        })
+    }
+}
+
+// Save redux to firebase
+// Object.keys(state.results).forEach((matchId) => {
+//     const newMatchRef = matchRef.child(`${matchId}`);
+//     const {matchNum, teamNum, preMatch, timeline, postMatch} = state.results[matchId];
+//     newMatchRef.set({matchNum, teamNum, preMatch, timeline, postMatch})
+// })
+
 export function syncToFirebase() {
     return (dispatch, getState) => {
         const state = getState();
         const matchesRef = firebase.database().ref(`matches`);
-        // const matchesRef = firebase.database().ref(`matches/${matchId}`);
-        // Object.keys(state.results).forEach((matchId) => {
-        //     const {matchNum, teamNum, preMatch, timeline, postMatch} = state.results[matchId];
-        //     matchesRef.set({matchNum, teamNum, preMatch, timeline, postMatch})
-        // })
-    }
+
+        return matchesRef.once('value')
+            .then((matchesSnapshot) =>
+                Promise.all(getSaveMatchPromises(dispatch, state, matchesSnapshot))
+            // ).then(() =>
+            //     console.log(`syncToFirebase: currently ${Object.keys(state.teams).length} teams and ${Object.keys(state.teams.results).length} matches`)
+            );
+    };
+}
+
+function getSaveMatchPromises(dispatch, state, matchesSnapshot) {
+    const promises = [];
+    console.log(`getSaveMatchPromises: currently ${Object.keys(state.teams).length} teams and ${Object.keys(state.results).length} matches`);
+
+    matchesSnapshot.forEach((childMatchSnapshot) => {
+        const matchId = childMatchSnapshot.key;
+
+        if (!state.results.hasOwnProperty(matchId)) {
+            const rawResult = childMatchSnapshot.val();
+            rawResult.timeline = rawResult.timeline || [];
+            promises.push(dispatch(saveMatch(rawResult)));
+        }
+    });
+    return promises;
 }

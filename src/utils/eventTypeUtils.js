@@ -10,8 +10,11 @@ export function of(eventTypeAbbr) {
 
 export const eventTypeAbbrList = Object.values(eventTypes).map((eventType) => eventType.abbr);
 
-export const rocketEventList = Object.values(eventTypes)
-                                         .filter((eventType) => eventType.category === "rocket");
+export const rocketCargoEventList = Object.values(eventTypes)
+    .filter((et) => et.category === "rocket" && et.piece === 'CARGO');
+
+export const rocketHatchEventList = Object.values(eventTypes)
+    .filter((et) => et.category === "rocket" && et.piece === 'HATCH');
 
 export const cargoShipEventList = Object.values(eventTypes)
                                          .filter((eventType) => eventType.category === "cargoShip");
