@@ -19,6 +19,7 @@
     "react-native": "https://github.com/expo/react-native/archive/sdk-32.0.0.tar.gz",
     "react-native-firebase": "^5.2.3",
     "react-native-nav": "^2.0.2",
+    "react-native-qrcode": "^0.2.7",
     "react-redux": "^6.0.1",
     "redux": "^4.0.1",
     "redux-thunk": "^2.3.0",
