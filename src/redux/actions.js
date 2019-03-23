@@ -133,17 +133,19 @@ function saveMatch(rawResult) {
     }
 }
 
-// Save redux to firebase
-// Object.keys(state.results).forEach((matchId) => {
-//     const newMatchRef = matchRef.child(`${matchId}`);
-//     const {matchNum, teamNum, preMatch, timeline, postMatch} = state.results[matchId];
-//     newMatchRef.set({matchNum, teamNum, preMatch, timeline, postMatch})
-// })
+
 
 export function syncToFirebase() {
     return (dispatch, getState) => {
         const state = getState();
         const matchesRef = firebase.database().ref(`matches`);
+
+        // Save redux to firebase
+        Object.keys(state.results).forEach((matchId) => {
+            const newMatchRef = matchesRef.child(`${matchId}`);
+            const {matchNum, teamNum, preMatch, timeline, postMatch} = state.results[matchId];
+            newMatchRef.set({matchNum, teamNum, preMatch, timeline, postMatch})
+        });
 
         return matchesRef.once('value')
             .then((matchesSnapshot) =>

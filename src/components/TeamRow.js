@@ -41,7 +41,8 @@ const styles = StyleSheet.create({
     },
     tableColumn: {
         flex: 1,
-        justifyContent: "center"
+        justifyContent: "center",
+        width: 100
     },
     tableText: {
         paddingHorizontal: 20,

@@ -28,7 +28,7 @@ const styles = StyleSheet.create({
         paddingHorizontal: 5,
         paddingVertical: 5,
         borderLeftWidth: StyleSheet.hairlineWidth,
-        minWidth: 100
+        maxWidth: 100
     },
     tableRow: {
         flexDirection: "row",
@@ -40,7 +40,7 @@ const styles = StyleSheet.create({
         justifyContent: "center"
     },
     tableText: {
-        paddingHorizontal: 20,
+        paddingHorizontal: 5,
         paddingVertical: 5,
         fontSize: 14
     }

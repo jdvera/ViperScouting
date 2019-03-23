@@ -10,7 +10,8 @@ class NavButton extends React.Component {
             disabled: false
         };
         let textStyle = {
-            color: "black"
+            color: "black",
+            fontSize: 24
         };
 
         if (name === currentPage) {

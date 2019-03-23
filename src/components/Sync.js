@@ -1,11 +1,14 @@
 import React from 'react';
 import { connect } from 'react-redux';
-import { StyleSheet, Text, View, Button, TextInput } from 'react-native';
+import { StyleSheet, Text, View, TextInput } from 'react-native';
+import { Button } from 'react-native-elements';
 import * as reduxActions from "../redux/actions";
 
 class Sync extends React.Component {
     state = {
-        eventCodeInput: this.props.eventCode
+        eventCodeInput: this.props.eventCode,
+        syncingFirebase: false,
+        syncingTBA: false
     };
 
     onInputChange = (value) => this.setState({ eventCodeInput: value });
@@ -15,12 +18,14 @@ class Sync extends React.Component {
     };
     getEventInfo = () => {
         console.log(`Grabbing event data for ${this.state.eventCodeInput}`);
+        this.setState({syncingTBA: true});
         this.props.updateMatches().then(() => {
             this.props.updateMainState({ showPage: "schedule" });
         });
     };
     syncWithFirebase = () => {
         console.log(`Syncing to firebase`);
+        this.setState({syncingFirebase: true});
         this.props.syncToFirebase().then(() => {
             this.props.updateMainState({ showPage: "teams" });
         });
@@ -43,12 +48,22 @@ class Sync extends React.Component {
                         <Button title="Save" onPress={this.saveEventCode}/>
                     </View>
                     <View style={{ paddingRight: 10 }}>
-                        <Button title="Sync with TBA" onPress={this.getEventInfo}/>
+                        <Button
+                            title="Sync with TBA"
+                            onPress={this.getEventInfo}
+                            loading={this.state.syncingTBA}
+                        />
                     </View>
                 </View>
                 <View style={styles.actionsContainer}>
                     <View style={{ paddingRight: 10 }}>
-                        <Button title="Sync with Firebase" onPress={this.syncWithFirebase}/>
+                        <Button
+                            title="Sync with Firebase"
+                            onPress={this.syncWithFirebase}
+                            loading={this.state.syncingFirebase}
+                            containerStyle={styles.containerStyle}
+                            buttonStyle={styles.buttonStyle}
+                        />
                     </View>
                 </View>
             </View>
@@ -73,6 +88,15 @@ const styles = StyleSheet.create({
         borderColor: 'gray',
         borderWidth: 1,
         marginHorizontal: 20
+    },
+    containerStyle: {
+        height: 80,
+    },
+    buttonStyle: {
+        height: 50,
+    },
+    largerText: {
+        fontSize: 34
     }
 });
 

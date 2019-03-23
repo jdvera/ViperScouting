@@ -41,8 +41,8 @@ class PreGame extends React.Component {
                             page="prematch"
                             handleButtonPress={this.handleButtonPress}
                         >
-                            <Text>Robot Holding</Text>
-                            <Text>Hatch</Text>
+                            <Text style={styles.largerText}>Robot Holding</Text>
+                            <Text style={styles.largerText}>Hatch</Text>
                         </ActionButton>
                         <ActionButton
                             action={1}
@@ -51,8 +51,8 @@ class PreGame extends React.Component {
                             page="prematch"
                             handleButtonPress={this.handleButtonPress}
                         >
-                            <Text>Robot Holding</Text>
-                            <Text>Cargo</Text>
+                            <Text style={styles.largerText}>Robot Holding</Text>
+                            <Text style={styles.largerText}>Cargo</Text>
                         </ActionButton>
                     </View>
 
@@ -66,8 +66,8 @@ class PreGame extends React.Component {
                             page="prematch"
                             handleButtonPress={this.handleButtonPress}
                         >
-                            <Text>Cargo Ship</Text>
-                            <Text>Two Cargo</Text>
+                            <Text style={styles.largerText}>Cargo Ship</Text>
+                            <Text style={styles.largerText}>Two Cargo</Text>
                         </ActionButton>
                         <ActionButton
                             action={0}
@@ -76,7 +76,7 @@ class PreGame extends React.Component {
                             page="prematch"
                             handleButtonPress={this.handleButtonPress}
                         >
-                            <Text>HAB Level 1</Text>
+                            <Text style={styles.largerText}>HAB Level 1</Text>
                         </ActionButton>
                     </View>
                     <View style={styles.buttonWrapper}>
@@ -87,8 +87,9 @@ class PreGame extends React.Component {
                             page="prematch"
                             handleButtonPress={this.handleButtonPress}
                         >
-                            <Text>Cargo Ship</Text>
-                            <Text>One Cargo | One Hatch</Text>
+                            <Text style={styles.largerText}>Cargo Ship</Text>
+                            <Text style={styles.largerText}>One Cargo</Text>
+                            <Text style={styles.largerText}>One Hatch</Text>
                         </ActionButton>
                         <ActionButton
                             action={1}
@@ -97,7 +98,7 @@ class PreGame extends React.Component {
                             page="prematch"
                             handleButtonPress={this.handleButtonPress}
                         >
-                            <Text>HAB Level 2</Text>
+                            <Text style={styles.largerText}>HAB Level 2</Text>
                         </ActionButton>
                     </View>
                     <View style={styles.buttonWrapper}>
@@ -108,8 +109,8 @@ class PreGame extends React.Component {
                             page="prematch"
                             handleButtonPress={this.handleButtonPress}
                         >
-                            <Text>Cargo Ship</Text>
-                            <Text>Two Hatches</Text>
+                            <Text style={styles.largerText}>Cargo Ship</Text>
+                            <Text style={styles.largerText}>Two Hatches</Text>
                         </ActionButton>
                         <View style={styles.status} />
                     </View>
@@ -196,6 +197,9 @@ const styles = StyleSheet.create({
     barText: {
         backgroundColor: "transparent",
         color: "#FFF",
+    },
+    largerText: {
+        fontSize: 34
     }
 });
 

@@ -33,28 +33,32 @@ class Teams extends React.Component {
         return (
             <View style={styles.container}>
                 <View style={styles.tableWrapper}>
-                    <View style={styles.tableRow}>
-                        {Object.values(statsOrder).map((statsType, index) => (
-                            <TeamStatsHeader
-                                statsType={statsType}
-                                isSelected={this.state.currentStatsType === statsType}
-                                updateSelectedStat={this.updateSelectedStat}
-                                key={index}
-                            />
-                        ))}
-                    </View>
-                    <ScrollView>
-                    {this.state.teams.map((team, index) => {
-                        // console.log(`Team row ${index} for team ${team.teamNum}`)
-                        return (
-                            <TeamRow
-                                team={team}
-                                isSelected={this.state.selectedTeam === team.teamNum}
-                                updateSelectedTeam={this.updateSelectedTeam}
-                                key={index}
-                            />
-                        )
-                    })}
+                    <ScrollView horizontal>
+                        <View style={{flexDirection: "column"}}>
+                            <View style={styles.tableRow}>
+                                {Object.values(statsOrder).map((statsType, index) => (
+                                    <TeamStatsHeader
+                                        statsType={statsType}
+                                        isSelected={this.state.currentStatsType === statsType}
+                                        updateSelectedStat={this.updateSelectedStat}
+                                        key={index}
+                                    />
+                                ))}
+                            </View>
+                            <ScrollView>
+                            {this.state.teams.map((team, index) => {
+                                // console.log(`Team row ${index} for team ${team.teamNum}`)
+                                return (
+                                    <TeamRow
+                                        team={team}
+                                        isSelected={this.state.selectedTeam === team.teamNum}
+                                        updateSelectedTeam={this.updateSelectedTeam}
+                                        key={index}
+                                    />
+                                )
+                            })}
+                            </ScrollView>
+                        </View>
                     </ScrollView>
                 </View>
             </View>
@@ -71,7 +75,7 @@ const styles = StyleSheet.create({
 
     // Table
     tableWrapper: {
-        flexDirection: "column",
+        // flexDirection: "column",
         alignItems: "stretch",
         marginHorizontal: 5,
         maxHeight: Dimensions.get('window').height * .75,
@@ -87,18 +91,18 @@ const styles = StyleSheet.create({
         flex: 1,
         justifyContent: "center",
         alignItems: "center",
-        paddingHorizontal: 20,
+        paddingHorizontal: 5,
         paddingVertical: 5,
         borderLeftWidth: StyleSheet.hairlineWidth,
-        minWidth: 100
+        // minWidth: 100
     },
     tableColumn: {
         flex: 1,
         justifyContent: "center",
-        minWidth: 100
+        // minWidth: 100
     },
     tableText: {
-        paddingHorizontal: 20,
+        paddingHorizontal: 5,
         paddingVertical: 5,
         fontSize: 14
     }

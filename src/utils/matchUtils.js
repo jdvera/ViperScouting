@@ -46,7 +46,7 @@ export function calculatePoints(result) {
     const climbPts = _get(postMatchOptions, `position.options.${_get(result, `postMatch.pos`, -1)}.points`, 0) *
         (_get(result, `postMatch.${postMatchOptions.buddyClimbs.name}`) + 1);
 
-    console.log(`Calculating score for ${_get(result, `teamNum`)}: preMatchpts: ${preMatchpts} climbPts: ${climbPts}`);
+    // console.log(`Calculating score for ${_get(result, `teamNum`)}: preMatchpts: ${preMatchpts} climbPts: ${climbPts}`);
 
     return {
         rocketPts: _sum([rocketCargoPts, rocketHatchPts]),

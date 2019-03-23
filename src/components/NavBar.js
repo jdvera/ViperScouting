@@ -10,15 +10,15 @@ class NavBar extends React.Component {
         if (this.props.currentPage === "prematch"
             || this.props.currentPage === "scouting"
             || this.props.currentPage === "postmatch") {
-            // return <Text>Match: {this.props.matchNum} | Team: {this.props.teamNum}</Text>
-            return <Text>Match: {this.props.currentMatch} | Team: {this.props.currentTeam}</Text>
+            // return <Text style={styles.largerText}>Match: {this.props.matchNum} | Team: {this.props.teamNum}</Text>
+            return <Text style={styles.largerText}>Match: {this.props.currentMatch} | Team: {this.props.currentTeam}</Text>
         }
     };
 
     render() {
         return (
             <View style={styles.navMain}>
-                <Text>Viper Scouting</Text>
+                <Text style={styles.largerText}>Viper Scouting</Text>
                 {this.showTeamInfo()}
                 <View style={styles.row}>
                     <NavButton
@@ -52,11 +52,14 @@ const styles = StyleSheet.create({
         justifyContent: "space-around",
         alignItems: 'center',
         backgroundColor: "lightgray",
-        maxHeight: 30
+        maxHeight: 50
     },
     row: {
         flexDirection: "row"
     },
+    largerText: {
+        fontSize: 24
+    }
 
 });
 
