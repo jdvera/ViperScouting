@@ -24,7 +24,7 @@ class PostGame extends React.Component {
         broken: null,
         pos: null,
         host: null,
-        liftability: -1,
+        liftability: 2,
         defense: null
     };
 

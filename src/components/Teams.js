@@ -1,14 +1,30 @@
 import React from 'react';
 import { connect } from 'react-redux';
-import {Dimensions, ScrollView, StyleSheet, Text, TouchableOpacity, View} from 'react-native';
+import {Button, Dimensions, ScrollView, StyleSheet, Text, TouchableOpacity, View} from 'react-native';
 import TeamRow from "./TeamRow";
 import _sortBy from "lodash/sortBy";
 import _get from "lodash/get";
-import * as statsOrder from '../constants/StatsOrders';
 import TeamStatsHeader from "./TeamStatsHeader";
+import * as reduxActions from "../redux/actions";
+import * as statsOrder from '../constants/StatsOrders';
 
 
 class Teams extends React.Component {
+
+    mainStats = [
+        statsOrder.teamNum,
+        statsOrder.avePts,
+        statsOrder.maxPts,
+        statsOrder.avgNonHabPts,
+        statsOrder.maxNonHabPts,
+        statsOrder.avgRocketPts,
+        statsOrder.avgRocketCargoPts,
+        statsOrder.avgRocketHatchPts,
+        statsOrder.avgCargoShipPts,
+        statsOrder.avgCargoShipCargoPts,
+        statsOrder.avgCargoShipHatchPts,
+        statsOrder.avgHabPts
+    ];
 
     state = {
         selectedTeam: null,
@@ -17,7 +33,8 @@ class Teams extends React.Component {
     };
 
     updateSelectedTeam = (teamNum) => {
-        this.setState({ selectedTeam: teamNum })
+        this.setState({ selectedTeam: teamNum });
+        this.props.setCurrentScoutingDetailsTeam(teamNum);
     };
 
     updateSelectedStat = (statsType) => {
@@ -36,7 +53,7 @@ class Teams extends React.Component {
                     <ScrollView horizontal>
                         <View style={{flexDirection: "column"}}>
                             <View style={styles.tableRow}>
-                                {Object.values(statsOrder).map((statsType, index) => (
+                                {this.mainStats.map((statsType, index) => (
                                     <TeamStatsHeader
                                         statsType={statsType}
                                         isSelected={this.state.currentStatsType === statsType}
@@ -47,7 +64,8 @@ class Teams extends React.Component {
                             </View>
                             <ScrollView>
                             {this.state.teams.map((team, index) => {
-                                // console.log(`Team row ${index} for team ${team.teamNum}`)
+                                // console.log(`Team row ${index} for team ${team.teamNum}:`);
+                                // console.log(team);
                                 return (
                                     <TeamRow
                                         team={team}
@@ -60,6 +78,9 @@ class Teams extends React.Component {
                             </ScrollView>
                         </View>
                     </ScrollView>
+                </View>
+                <View style={styles.row}>
+                    <Button title={`View Team Details`} onPress={() => this.props.updateMainState({ showPage: "teamDetails" })} />
                 </View>
             </View>
         );
@@ -105,7 +126,11 @@ const styles = StyleSheet.create({
         paddingHorizontal: 5,
         paddingVertical: 5,
         fontSize: 14
-    }
+    },
+    row: {
+        flexDirection: "row",
+        justifyContent: "space-around"
+    },
 });
 
 
@@ -119,4 +144,12 @@ const mapStateToProps = state => {
     }
 };
 
-export default connect(mapStateToProps)(Teams);
+const mapDispatchToProps = (dispatch, ownProps) => {
+    return {
+        setCurrentScoutingDetailsTeam: (teamNum) => Promise.resolve(
+            dispatch(reduxActions.setCurrentScoutingDetailsTeam(teamNum))
+        )
+    }
+};
+
+export default connect(mapStateToProps, mapDispatchToProps)(Teams);

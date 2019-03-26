@@ -2,6 +2,7 @@ import { combineReducers } from 'redux';
 import _get from 'lodash/get';
 import _mean from 'lodash/mean';
 import _meanBy from 'lodash/meanBy';
+import _maxBy from 'lodash/maxBy';
 import {validatePayload, validateRawResults} from "../utils/validators";
 import {calculatePoints, generateProcessedTasks, matchId} from "../utils/matchUtils";
 import {findTeamMatches} from "./selectors";
@@ -120,13 +121,16 @@ const teamReducer = (state = {}, action) => {
             });
 
             const avgPts = _meanBy(matches, `points.totalPts`);
+            const maxPts = _get(_maxBy(matches, `points.totalPts`), `points.totalPts`);
+            const avgNonHabPts = _meanBy(matches, `points.nonHabPts`);
+            const maxNonHabPts = _get(_maxBy(matches, `points.nonHabPts`), `points.nonHabPts`);
             const avgRocketPts = _meanBy(matches, `points.rocketPts`);
             const avgRocketCargoPts = _meanBy(matches, `points.rocketCargoPts`);
             const avgRocketHatchPts = _meanBy(matches, `points.rocketHatchPts`);
             const avgCargoShipPts = _meanBy(matches, `points.cargoShipPts`);
             const avgHabPts = _meanBy(matches, `points.habPts`);
 
-            return assignNestedState(state, teamNum, { taskAverageMap, avgPts, avgRocketPts, avgRocketCargoPts, avgRocketHatchPts, avgCargoShipPts, avgHabPts });
+            return assignNestedState(state, teamNum, { taskAverageMap, avgPts, maxPts, avgNonHabPts, maxNonHabPts, avgRocketPts, avgRocketCargoPts, avgRocketHatchPts, avgCargoShipPts, avgHabPts });
 
         default:
             return state;
@@ -168,10 +172,11 @@ const scheduleReducer = (state = { matches: [], eventCode: "2019txdel", matchesL
  {
         "currentMatch": Number,
         "alliance": "blue" || "red",
-        "position": Number
+        "position": Number,
+        "currentScoutingDetailsTeam": Number
     }
  */
-const scoutingReducer = (state = { currentMatch: 0, alliance: null, position: null}, action) => {
+const scoutingReducer = (state = { currentMatch: 0, alliance: null, position: null, currentScoutingDetailsTeam: 6800}, action) => {
     switch (action.type) {
         case 'SET_SCOUTING_INFO':
             if (!(validatePayload(action.payload, 'currentMatch') &&
@@ -194,6 +199,8 @@ const scoutingReducer = (state = { currentMatch: 0, alliance: null, position: nu
             return Object.assign(state, { ...action.payload });
         case 'GOTO_NEXT_MATCH':
             return Object.assign(state, { currentMatch: state.currentMatch + 1 });
+        case 'SET_CURRENT_SCOUTING_DETAILS_TEAM':
+            return Object.assign(state, { currentScoutingDetailsTeam: action.payload.teamNum });
         default:
             return state;
     }

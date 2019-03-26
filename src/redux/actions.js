@@ -89,6 +89,12 @@ export function gotoNextMatch() {
         payload: {}
     };
 }
+export function setCurrentScoutingDetailsTeam(teamNum) {
+    return {
+        type: 'SET_CURRENT_SCOUTING_DETAILS_TEAM',
+        payload: {teamNum}
+    };
+}
 
 export function updateScoutingInfo(currentMatch, alliance, position) {
     return (dispatch, getState) => {

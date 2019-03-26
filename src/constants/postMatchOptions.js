@@ -105,21 +105,21 @@ export const broken = {
     ]
 };
 
-export const defendedOn = {
-    name: "defendedOn",
-    label: "Where they defended on?",
-    options: [
-        {
-            label: "No",
-            value: 0,
-        },
-        {
-            label: "Kinda",
-            value: 1,
-        },
-        {
-            label: "Heavily",
-            value: 2,
-        }
-    ]
-};
+// export const defendedOn = {
+//     name: "defendedOn",
+//     label: "Where they defended on?",
+//     options: [
+//         {
+//             label: "No",
+//             value: 0,
+//         },
+//         {
+//             label: "Kinda",
+//             value: 1,
+//         },
+//         {
+//             label: "Heavily",
+//             value: 2,
+//         }
+//     ]
+// };

@@ -6,7 +6,7 @@ import ActionButton from "./ActionButton.js";
 import AnimatedBar from "./AnimatedBar.js";
 // import moment from "moment";
 
-const gameDuration = 1500;
+const gameDuration = 150000;
 
 class Scouting extends React.Component {
     state = {

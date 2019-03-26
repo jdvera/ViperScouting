@@ -6,7 +6,7 @@ export const findTeamNum = (state, props) => {
     return _get(state, `schedule.matches.${props.matchNumber}.${props.alliance}.${props.position}`, "");
 };
 
-export const findTeam = (state, props) => _get(state, `teams.${props.teamNum}`);
+export const findTeam = (state, props) => _get(state, `teams.${props.teamNum.toString()}`);
 
 export const findTeamMatches = (state, props) => {
     const matches = _get(state, `teams.${props.teamNum}.matches`);

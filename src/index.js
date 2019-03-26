@@ -10,6 +10,7 @@ import Teams from "./components/Teams.js";
 import Sync from "./components/Sync.js";
 import _get from 'lodash/get';
 import NavBar from "./components/NavBar";
+import TeamDetails from "./components/TeamDetails";
 
 class Main extends React.Component {
     state = {
@@ -68,6 +69,8 @@ class Main extends React.Component {
                 return <PostMatch updateMainState={this.updateMainState} currentMatch={this.state.match} i={i} saveMatch={this.saveMatch}/>;
             case "teams":
                 return <Teams updateMainState={this.updateMainState} />;
+            case "teamDetails":
+                return <TeamDetails updateMainState={this.updateMainState} />;
             case "sync":
                 return <Sync updateMainState={this.updateMainState} />;
         }

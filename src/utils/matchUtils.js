@@ -54,5 +54,6 @@ export function calculatePoints(result) {
         rocketHatchPts,
         cargoShipPts,
         habPts: _sum([climbPts, preMatchpts]),
+        nonHabPts: _sum([rocketCargoPts, rocketHatchPts, cargoShipPts]),
         totalPts: _sum([preMatchpts, rocketCargoPts, rocketHatchPts, cargoShipPts, climbPts]) };
 }

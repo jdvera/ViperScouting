@@ -5,6 +5,21 @@ import _get from "lodash/get";
 
 class TeamRow extends React.Component {
 
+    mainStats = [
+        statsOrder.teamNum,
+        statsOrder.avePts,
+        statsOrder.maxPts,
+        statsOrder.avgNonHabPts,
+        statsOrder.maxNonHabPts,
+        statsOrder.avgRocketPts,
+        statsOrder.avgRocketCargoPts,
+        statsOrder.avgRocketHatchPts,
+        statsOrder.avgCargoShipPts,
+        statsOrder.avgCargoShipCargoPts,
+        statsOrder.avgCargoShipHatchPts,
+        statsOrder.avgHabPts
+    ];
+
     getproperty = (statsType) => {
         // console.log(`rendering stat ${statsName} for team ${this.props.team.teamNum}: ${this.props.team[statsName]}`);
         const stat = _get(this.props.team, statsType.path);
@@ -15,7 +30,7 @@ class TeamRow extends React.Component {
         // console.log(`rendering row for team ${this.props.team.teamNum}: selected: ${this.props.isSelected}`);
         return (
             <View style={styles.tableRow}>
-                {Object.values(statsOrder).map((statsType, index) => (
+                {this.mainStats.map((statsType, index) => (
                     <View style={[styles.leftBorder, styles.tableColumn]} key={index}>
                         <TouchableOpacity
                             style={{ backgroundColor: this.props.isSelected ? "limegreen" : "azure" }}
