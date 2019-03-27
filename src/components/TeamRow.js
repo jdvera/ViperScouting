@@ -10,14 +10,13 @@ class TeamRow extends React.Component {
         statsOrder.avePts,
         statsOrder.maxPts,
         statsOrder.avgNonHabPts,
-        statsOrder.maxNonHabPts,
         statsOrder.avgRocketPts,
+        statsOrder.avgHabPts,
+        statsOrder.avgCargoShipPts,
         statsOrder.avgRocketCargoPts,
         statsOrder.avgRocketHatchPts,
-        statsOrder.avgCargoShipPts,
         statsOrder.avgCargoShipCargoPts,
         statsOrder.avgCargoShipHatchPts,
-        statsOrder.avgHabPts
     ];
 
     getproperty = (statsType) => {

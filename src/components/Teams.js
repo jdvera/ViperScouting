@@ -16,14 +16,13 @@ class Teams extends React.Component {
         statsOrder.avePts,
         statsOrder.maxPts,
         statsOrder.avgNonHabPts,
-        statsOrder.maxNonHabPts,
         statsOrder.avgRocketPts,
+        statsOrder.avgCargoShipPts,
+        statsOrder.avgHabPts,
         statsOrder.avgRocketCargoPts,
         statsOrder.avgRocketHatchPts,
-        statsOrder.avgCargoShipPts,
         statsOrder.avgCargoShipCargoPts,
         statsOrder.avgCargoShipHatchPts,
-        statsOrder.avgHabPts
     ];
 
     state = {
