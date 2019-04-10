@@ -12,7 +12,7 @@ class Schedule extends React.Component {
                     <View style={styles.tableRow}>
                         <View style={[styles.tableHeader, styles.blueBackground]} />
                         <View style={[styles.tableHeader, styles.blueBackground]} >
-                            <Text>Blue Team</Text>
+                            <Text style={{color: 'white'}}>Blue Team</Text>
                         </View>
                         <View style={[styles.tableHeader, styles.blueBackground]} />
                         <View style={[styles.tableHeader, styles.leftBorder]}>
@@ -20,7 +20,7 @@ class Schedule extends React.Component {
                         </View>
                         <View style={[styles.tableHeader, styles.redBackground, styles.leftBorder]} />
                         <View style={[styles.tableHeader, styles.redBackground]}>
-                            <Text>Red Team</Text>
+                            <Text style={{color: 'white'}}>Red Team</Text>
                         </View>
                         <View style={[styles.tableHeader, styles.redBackground]} />
                     </View>
@@ -57,10 +57,10 @@ const styles = StyleSheet.create({
         borderLeftWidth: StyleSheet.hairlineWidth
     },
     blueBackground: {
-        backgroundColor: "lightskyblue"
+        backgroundColor: "#051A38"
     },
     redBackground: {
-        backgroundColor: "lightsalmon"
+        backgroundColor: "#801515"
     },
 
     // Table
@@ -99,7 +99,7 @@ const mapStateToProps = state => {
     return {
         matches: state.schedule.matches,
         matchesLoaded: state.schedule.matchesLoaded,
-        currentTeamNum: findCurrentTeam(state)
+        currentTeamNum: findCurrentTeam(state),
     };
 };
 

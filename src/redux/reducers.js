@@ -149,7 +149,7 @@ const teamReducer = (state = {}, action) => {
         ]
     }
  */
-const scheduleReducer = (state = { matches: [], eventCode: "2019txdel", matchesLoaded: false}, action) => {
+const scheduleReducer = (state = { matches: [], eventCode: "2019ftcmp", matchesLoaded: false}, action) => {
     switch (action.type) {
         case 'SET_EVENT_CODE':
             if (!validatePayload(action.payload, 'eventCode')){

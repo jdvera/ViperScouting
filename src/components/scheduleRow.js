@@ -15,6 +15,8 @@ class ScheduleRow extends React.Component {
                         teamNum={teamNum}
                         updateMainState={this.props.updateMainState}
                         key={blueIndex}
+                        unscoutedColor="#758AA8"
+                        scoutedColor="#4C678C"
                     />
                 ))}
                 <View style={[styles.tableColumn, styles.center, styles.leftBorder]}>
@@ -28,6 +30,8 @@ class ScheduleRow extends React.Component {
                         teamNum={teamNum}
                         updateMainState={this.props.updateMainState}
                         key={redIndex}
+                        unscoutedColor="#FFAAAA"
+                        scoutedColor="#D46A6A"
                     />
                 ))}
             </View>

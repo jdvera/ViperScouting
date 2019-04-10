@@ -3,9 +3,13 @@ import { connect } from 'react-redux';
 import {Dimensions, ScrollView, StyleSheet, TouchableOpacity, View} from 'react-native';
 import { Text } from 'react-native-elements';
 import _get from "lodash/get";
+import _max from 'lodash/max';
+import _sum from 'lodash/sum';
 import * as statsOrder from '../constants/StatsOrders';
 import {findTeam, findTeamMatches} from "../redux/selectors";
 import * as eventTypes from '../constants/EventTypes';
+import {Grid, StackedBarChart, XAxis} from 'react-native-svg-charts'
+import _sortBy from "lodash/sortBy";
 
 
 class TeamDetails extends React.Component {
@@ -35,17 +39,28 @@ class TeamDetails extends React.Component {
         "Average Rocket Lvl3 Points",
     ];
 
-    matchStats = [
+    hatchMatchStats = [
         eventTypes.scoreHatchCargoShip,
         eventTypes.scoreHatchRocket1,
         eventTypes.scoreHatchRocket2,
         eventTypes.scoreHatchRocket3,
+        eventTypes.dropHatch,
+    ];
+
+    cargoMatchStats = [
         eventTypes.scoreCargoCargoShip,
         eventTypes.scoreCargoRocket1,
         eventTypes.scoreCargoRocket2,
         eventTypes.scoreCargoRocket3,
-        eventTypes.dropHatch,
         eventTypes.dropCargo,
+    ];
+
+    matchStatColors = [
+        '#0D4D4D',
+        "#9775AA",
+        "#764B8E",
+        "#3D1255",
+        "#801515"
     ];
 
     getproperty = (statsType) => {
@@ -58,7 +73,77 @@ class TeamDetails extends React.Component {
         return value > 0.001 ? value : '-';
     };
 
+    renderMatchStats = (matchStats) => {
+        const eventLabels = matchStats.map((matchStat) => matchStat.abbr);
+        const eventsData = this.props.matches.map((match, matchIndex) =>
+            Object.assign(...matchStats.map((matchStat, index) =>
+                ({ [matchStat.abbr]: _get(match, `taskMap.${matchStat.abbr}`).length * ((matchStat.points === 0) ? 1 : 1) })
+            ))
+        );
+        const matchNumbers = this.props.matches.map((match) => match.matchNum);
+        const maxItemsScored = _max(eventsData.map((event) => _sum(Object.values(event))));
+
+        return (
+            <View>
+                <View style={{ height: 200 }}>
+
+
+                    <StackedBarChart
+                        style={ { height: 200 } }
+                        keys={ eventLabels }
+                        colors={ this.matchStatColors }
+                        data={ eventsData }
+                        showGrid={ true }
+                        contentInset={ { top: 30, bottom: 30 } }
+                        numberOfTicks = {maxItemsScored}
+                    >
+                        <Grid/>
+                    </StackedBarChart>
+
+                    <XAxis
+                        style={{ height: 180, marginHorizontal: 40 }}
+                        data={ matchNumbers }
+                        formatLabel={ (value, index) => matchNumbers[index] }
+                        contentInset={{ left: 10, right: 10 }}
+                        svg={{ fontSize: 10, fill: 'black' }}
+                        spacing={0.2}
+                    />
+                </View>
+
+                <View style={[styles.tableWrapper, {marginTop: 30}]}>
+                    <View style={{flexDirection: "column"}}>
+                        <View style={styles.tableRow}>
+                            <View style={[styles.leftBorder, styles.tableColumn]}>
+                                <Text style={styles.tableText}>Match Number</Text>
+                            </View>
+                            {matchStats.map((matchStat, index) => (
+                                <View style={[styles.leftBorder, styles.tableColumn]} key={index}>
+                                    <Text style={styles.tableText}>{matchStat.label}</Text>
+                                </View>
+                            ))}
+                        </View>
+                        {this.props.matches.map((match, matchIndex) => (
+                            <View style={styles.tableRow} key={matchIndex}>
+                                <View style={[styles.leftBorder, styles.tableColumn]}>
+                                    <Text style={styles.tableText}>{match.matchNum}</Text>
+                                </View>
+                                {matchStats.map((matchStat, index) => (
+                                    <View style={[styles.leftBorder, styles.tableColumn]} key={index}>
+                                        <Text style={styles.tableText}>{this.toDash(_get(match, `taskMap.${matchStat.abbr}`).length)}</Text>
+                                    </View>
+                                ))}
+                            </View>
+                        ))}
+                    </View>
+                </View>
+            </View>
+        );
+    };
+
     render() {
+
+
+
         return (
             <View style={styles.container}>
                 <ScrollView>
@@ -98,34 +183,14 @@ class TeamDetails extends React.Component {
                         </View>
                     </View>
 
+                    <Text h3>Events</Text>
+                    <Text h4>Hatch</Text>
+                    {this.renderMatchStats(this.hatchMatchStats)}
 
-                    <Text h4>Events</Text>
-                    <View style={styles.tableWrapper}>
-                        <View style={{flexDirection: "column"}}>
-                            <View style={styles.tableRow}>
-                                <View style={[styles.leftBorder, styles.tableColumn]}>
-                                    <Text style={styles.tableText}>Match Number</Text>
-                                </View>
-                                {this.matchStats.map((matchStats, index) => (
-                                    <View style={[styles.leftBorder, styles.tableColumn]} key={index}>
-                                        <Text style={styles.tableText}>{matchStats.label}</Text>
-                                    </View>
-                                ))}
-                            </View>
-                            {this.props.matches.map((match, matchIndex) => (
-                                <View style={styles.tableRow} key={matchIndex}>
-                                    <View style={[styles.leftBorder, styles.tableColumn]}>
-                                        <Text style={styles.tableText}>{match.matchNum}</Text>
-                                    </View>
-                                    {this.matchStats.map((matchStats, index) => (
-                                        <View style={[styles.leftBorder, styles.tableColumn]} key={index}>
-                                            <Text style={styles.tableText}>{this.toDash(_get(match, `taskMap.${matchStats.abbr}`).length)}</Text>
-                                        </View>
-                                    ))}
-                                </View>
-                            ))}
-                        </View>
-                    </View>
+                    <Text h4>Cargo</Text>
+                    {this.renderMatchStats(this.cargoMatchStats)}
+
+
                 </ScrollView>
             </View>
         );
@@ -181,7 +246,7 @@ const mapStateToProps = state => {
     console.log(`mapStateToProps: currently loading team ${state.scouting.currentScoutingDetailsTeam} details`)
     return {
         team: findTeam(state, {teamNum: state.scouting.currentScoutingDetailsTeam}),
-        matches: findTeamMatches(state, {teamNum: state.scouting.currentScoutingDetailsTeam})
+        matches: _sortBy(findTeamMatches(state, {teamNum: state.scouting.currentScoutingDetailsTeam}), (match) => match.matchNum)
     }
 };
 

@@ -11,7 +11,7 @@ class ScheduleTeamCell extends React.Component {
         return (
             <View style={[styles.leftBorder, styles.tableColumn]}>
                 <TouchableOpacity
-                    style={{ backgroundColor: this.props.isSelected ? "limegreen" : "azure" }}
+                    style={{ backgroundColor: this.props.isSelected ? "limegreen" : this.props.scouted ? this.props.scoutedColor : this.props.unscoutedColor }}
                     onPress={() => this.props.setScoutingInfo(matchNumber, alliance, position)}
                 >
                     <Text style={styles.tableText}>{this.props.teamNum}</Text>
@@ -37,11 +37,12 @@ const styles = StyleSheet.create({
 });
 
 const mapStateToProps = (state, ownProps) => {
-    const { matchNumber, alliance, position } = ownProps;
+    const { matchNumber, alliance, position, teamNum } = ownProps;
     return {
         isSelected: matchNumber === state.scouting.currentMatch &&
                     alliance    === state.scouting.alliance &&
                     position    === state.scouting.position,
+        scouted: Object.keys(state.results).includes(`${matchNumber}::${teamNum}`)
     };
 };
 
