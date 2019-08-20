@@ -144,6 +144,13 @@ class TeamDetails extends React.Component {
 
 
 
+
+        const eventsData = this.props.matches.map((match, matchIndex) =>
+            Object.assign(...matchStats.map((matchStat, index) =>
+                ({ [matchStat.abbr]: _get(match, `taskMap.${matchStat.abbr}`).length * ((matchStat.points === 0) ? 1 : 1) })
+            ))
+        );
+
         return (
             <View style={styles.container}>
                 <ScrollView>
